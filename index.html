@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edu Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient-grid"></div>
+    <header class="site-header">
+      <a class="brand" href="#/">
+        <span class="brand-mark">EL</span>
+        <span>Edu Learning</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Открыть меню" data-nav-toggle>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="main-nav" data-nav>
+        <a href="#/courses">Курсы</a>
+        <a href="#/directions">Направления</a>
+        <a href="#/results">Мои результаты</a>
+        <a href="#/dashboard">Личный кабинет</a>
+        <a class="login-link" href="#/dashboard">Войти</a>
+      </nav>
+    </header>
+
+    <main id="app" class="app-shell"></main>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
