@@ -752,14 +752,62 @@ textarea.input {
   font-weight: 700;
 }
 
+.contact-form .consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.consent-row input {
+  flex: 0 0 auto;
+  width: 17px;
+  height: 17px;
+  margin: 1px 0 0;
+  accent-color: var(--green-strong);
+}
+
+.form-honey {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .contact-form .btn {
   justify-self: start;
 }
 
+.contact-form .btn:disabled {
+  cursor: wait;
+  opacity: 0.65;
+  transform: none;
+}
+
 .form-status {
   min-height: 24px;
-  color: var(--green) !important;
+  color: var(--muted) !important;
   font-weight: 700;
+}
+
+.form-status.success {
+  color: var(--green) !important;
+}
+
+.form-status.error {
+  color: var(--danger) !important;
+}
+
+.contact-card {
+  display: block;
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-2px);
 }
 
 .teacher-card .tag {

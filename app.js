@@ -5,7 +5,7 @@ const directions = [
     icon: "languages",
     color: "green",
     description:
-      "Курсы для развития speaking, writing, reading и listening. Практика, проверка заданий, прогресс по навыкам и кейсы для создания языкового портфолио.",
+      "Курсы для развития всех видов речевой деятельности: speaking, writing, reading и listening. Практика, проверка заданий, прогресс по навыкам и кейсы для создания языкового портфолио.",
   },
   {
     id: "blender",
@@ -36,9 +36,9 @@ const courses = [
     summary: "База грамматики, произношения, чтения и простых диалогов через ежедневную практику.",
     result: "Прогресс по языковым навыкам, проверенные задания и сертификат.",
     audience: "Новичкам, которые хотят уверенно стартовать без перегруза теорией.",
-    learn: ["строить базовые фразы", "понимать короткие тексты и аудио", "вести простые диалоги", "сдавать письменные задания на проверку"],
+    learn: ["понимать короткие тексты и аудио", "вести простые диалоги", "писать короткие тексты"],
     modules: ["Start Pack", "Everyday Grammar", "Listening Lab", "Speaking Practice"],
-    teacher: "Елена Морозова, преподаватель английского и методист EdTech",
+    teacher: "Снежана Соловьева, преподаватель английского и методист EdTech",
   },
   {
     id: "english-it",
@@ -47,12 +47,12 @@ const courses = [
     filter: "English",
     level: "Intermediate",
     duration: "6 недель",
-    summary: "Лексика разработки, митингов, документации и технических интервью.",
+    summary: "Лексика разработки, документации и технических интервью.",
     result: "Проверенные письменные задания, результаты тестов и сертификат.",
     audience: "Разработчикам, аналитикам, дизайнерам и начинающим IT-специалистам.",
     learn: ["объяснять технические задачи", "читать документацию", "писать рабочие сообщения", "готовиться к интервью"],
     modules: ["Tech Vocabulary", "Meetings", "Documentation", "Interview Sprint"],
-    teacher: "Антон Ли, English for Tech mentor",
+    teacher: "Дарья Смирнова, English for Tech mentor",
   },
   {
     id: "spoken-english",
@@ -61,12 +61,12 @@ const courses = [
     filter: "English",
     level: "Pre-Intermediate",
     duration: "7 недель",
-    summary: "Практика речи, диалоги, сценарии общения и трекинг прогресса по навыкам.",
-    result: "Прогресс по языковым навыкам, проверенные задания и сертификат.",
+    summary: "Практика речи, диалоги, реальные сценарии общения.",
+    result: "Прогресс по языковым навыкам, проверенные задания и сертификат EduLearning о прохождении курса.",
     audience: "Тем, кто знает базу, но хочет говорить увереннее.",
-    learn: ["поддерживать разговор", "формулировать мнение", "понимать речь на слух", "получать обратную связь"],
+    learn: ["поддерживать разговор", "формулировать мнение", "спокойной понимать речь на слух"],
     modules: ["Warm-up Dialogues", "Opinion Builder", "Real Scenarios", "Final Speaking Test"],
-    teacher: "Елена Морозова, преподаватель английского и методист EdTech",
+    teacher: "Кристина Ефремова, преподаватель английского и методист EdTech",
   },
   {
     id: "academic-writing",
@@ -75,12 +75,12 @@ const courses = [
     filter: "English",
     level: "Upper-Intermediate",
     duration: "5 недель",
-    summary: "Структура эссе, аргументация, источники, стиль и детальная проверка работ.",
-    result: "Проверенные письменные задания, результаты тестов и сертификат.",
-    audience: "Студентам, исследователям и тем, кто готовится к международным программам.",
+    summary: "Структура эссе, аргументация, источники, стиль и деловая коммуникация.",
+    result: "Умение вести деловую переписку, готовность к бизнес коммуникации.",
+    audience: "Студентам, исследователям и тем, кто готовится к международным программам. А также тем, кто хочет профессию в сфере бизнес коммуникации.",
     learn: ["строить аргументацию", "писать эссе", "оформлять источники", "улучшать академический стиль"],
     modules: ["Essay Structure", "Argumentation", "Sources", "Revision Studio"],
-    teacher: "Мария Вонг, academic writing tutor",
+    teacher: "Кристина Ефремова, преподаватель английского и методист EdTech",
   },
   {
     id: "blender-zero",
@@ -94,7 +94,7 @@ const courses = [
     audience: "Новичкам в 3D, дизайнерам и креаторам, которым нужен практический старт.",
     learn: ["работать в Blender", "создавать модели", "настраивать материалы", "собирать финальный рендер"],
     modules: ["Interface Core", "Modeling Base", "Materials", "Portfolio Render"],
-    teacher: "Кирилл Рэй, 3D artist и motion designer",
+    teacher: "Полина Крылова, 3D artist и motion designer",
   },
   {
     id: "3d-modeling",
@@ -108,21 +108,7 @@ const courses = [
     audience: "Тем, кто хочет системно прокачать моделирование.",
     learn: ["строить корректную сетку", "использовать модификаторы", "создавать props", "готовить модель к рендеру"],
     modules: ["Mesh Logic", "Modifiers", "Hard Surface", "Scene Assembly"],
-    teacher: "Кирилл Рэй, 3D artist и motion designer",
-  },
-  {
-    id: "render-light",
-    title: "Материалы, свет и рендер",
-    direction: "Blender",
-    filter: "Blender",
-    level: "Intermediate",
-    duration: "5 недель",
-    summary: "Шейдеры, композиция света, камера, Cycles/Eevee и финальная презентация проекта.",
-    result: "После курса вы создадите 3D-проект, который можно добавить в портфолио.",
-    audience: "3D-авторам, которые хотят улучшить визуальное качество работ.",
-    learn: ["создавать материалы", "ставить свет", "работать с камерой", "рендерить презентационные кадры"],
-    modules: ["Shader Lab", "Light Design", "Camera", "Final Render"],
-    teacher: "Ника Сол, lighting artist",
+    teacher: "Полина Крылова, 3D artist и motion designer",
   },
   {
     id: "blender-animation",
@@ -136,7 +122,7 @@ const courses = [
     audience: "Тем, кто хочет добавить движение в 3D-портфолио.",
     learn: ["анимировать объекты", "работать с таймлайном", "настраивать камеры", "собирать короткий ролик"],
     modules: ["Timing", "Graph Editor", "Rig Basics", "Motion Project"],
-    teacher: "Ника Сол, lighting artist",
+    teacher: "Полина Крылова, 3D artist и motion designer",
   },
   {
     id: "python-zero",
@@ -145,12 +131,12 @@ const courses = [
     filter: "AI / NLP",
     level: "Beginner",
     duration: "8 недель",
-    summary: "Синтаксис, функции, данные, notebooks и первые автоматизации.",
+    summary: "Синтаксис, функции, данные и первые автоматизации.",
     result: "После курса у вас будут Colab-блокноты, мини-проекты и практические кейсы для резюме.",
     audience: "Новичкам в программировании и тем, кто хочет перейти к AI-практике.",
     learn: ["писать Python-код", "работать с данными", "использовать Colab", "создавать мини-проекты"],
     modules: ["Python Core", "Data Structures", "Notebook Practice", "Automation Case"],
-    teacher: "Илья Ким, Python и NLP engineer",
+    teacher: "Лена Кругликова, ML engineer",
   },
   {
     id: "nlp-basics",
@@ -164,35 +150,7 @@ const courses = [
     audience: "Тем, кто знает базовый Python и хочет анализировать тексты.",
     learn: ["готовить текстовые данные", "строить классификаторы", "оценивать качество моделей", "оформлять проект в GitHub"],
     modules: ["Text Prep", "Embeddings", "Classification", "NLP Case"],
-    teacher: "Илья Ким, Python и NLP engineer",
-  },
-  {
-    id: "transformers-llm",
-    title: "Transformers и LLM",
-    direction: "AI / NLP",
-    filter: "AI / NLP",
-    level: "Advanced",
-    duration: "7 недель",
-    summary: "Архитектура transformers, prompt-подходы, RAG-идея и LLM-прототипы.",
-    result: "После курса у вас будут Colab-блокноты, мини-проекты и практические кейсы для резюме.",
-    audience: "Разработчикам, аналитикам и исследователям с базой Python/NLP.",
-    learn: ["понимать transformers", "собирать LLM-прототипы", "проектировать prompts", "документировать кейсы"],
-    modules: ["Transformer Core", "Prompt Systems", "RAG Intro", "LLM Prototype"],
-    teacher: "Дина Назарова, AI product engineer",
-  },
-  {
-    id: "ai-automation",
-    title: "AI-сервисы для автоматизации задач",
-    direction: "AI / NLP",
-    filter: "AI / NLP",
-    level: "Beginner+",
-    duration: "4 недели",
-    summary: "AI-инструменты, сценарии автоматизации, интеграции и финальный рабочий процесс.",
-    result: "После курса у вас будут Colab-блокноты, мини-проекты и практические кейсы для резюме.",
-    audience: "Специалистам, которым нужны прикладные AI-процессы без долгого входа.",
-    learn: ["выбирать AI-инструменты", "создавать сценарии", "автоматизировать повторяющиеся задачи", "оценивать результат"],
-    modules: ["AI Toolkit", "Workflow Design", "Integrations", "Automation Demo"],
-    teacher: "Дина Назарова, AI product engineer",
+    teacher: "Лена Кругликова, ML engineer",
   },
 ];
 
@@ -269,7 +227,8 @@ function homePage() {
     <section class="hero">
       <div>
         <span class="eyebrow">${icon("radar")} Soft cyberpunk learning system</span>
-        <h1>Edu Learning — Учись. Создавай. Исследуй.</h1>
+        <h1>Edu Learning</h1>
+        <h2>Учись. Создавай. Исследуй.</h2>
         <p>Осваивайте иностранные языки, 3D-дизайн, программирование через практику, проекты и персональный прогресс.</p>
         <div class="actions">
           <a class="btn btn-primary" href="#/courses">${icon("layers")} Выбрать курс</a>
@@ -307,11 +266,11 @@ function homePage() {
 
     <section class="section">
       <div class="section-head">
-        <h2>Почему выбирают Edu Learning</h2>
-        <p>Обучение строится вокруг практики, понятного прогресса и работ, которые можно показать после курса.</p>
+        <h2>Почему выбирают нас?</h2>
+        <p>Платформа строится вокруг практики, видимого прогресса и работ, которые можно показать после обучения.</p>
       </div>
       <div class="grid grid-3">
-        <article class="card"><span class="icon-chip">${icon("scan-line")}</span><h3>Понятный рост</h3><p>Программа помогает последовательно развивать навыки и видеть результат на каждом этапе обучения.</p></article>
+        <article class="card"><span class="icon-chip">${icon("scan-line")}</span><h3>Навыки в динамике</h3><p>Отдельные метрики по урокам, заданиям, тестам, проектам и прикладным навыкам.</p></article>
         <article class="card"><span class="icon-chip">${icon("folder-check")}</span><h3>Практические артефакты</h3><p>Colab-блокноты, GitHub-репозитории, 3D-рендеры и проверенные письменные задания.</p></article>
         <article class="card"><span class="icon-chip">${icon("messages-square")}</span><h3>Поддержка преподавателя</h3><p>Наставник помогает с практикой, отвечает на вопросы и даёт обратную связь по итоговым работам.</p></article>
       </div>
@@ -319,20 +278,19 @@ function homePage() {
 
     <section class="section">
       <div class="section-head">
-        <h2>Как проходит обучение</h2>
-        <p>Каждый курс сочетает понятную теорию, практику, обратную связь преподавателя и итоговый проект.</p>
+        <h2>Как проходит обучение?</h2>
+        <p>Уроки, материалы, задания и результаты собраны в едином интерфейсе, чтобы студент видел следующий шаг.</p>
       </div>
       <div class="grid grid-3">
         <article class="card"><h3>1. Выберите курс</h3><p>Фильтры по направлениям помогают быстро найти нужный трек и уровень.</p></article>
-        <article class="card"><h3>2. Учитесь через практику</h3><p>Разбирайте материал вместе с преподавателем и закрепляйте знания на прикладных задачах.</p></article>
-        <article class="card"><h3>3. Создайте итоговый проект</h3><p>Завершите курс готовой работой, кейсом или заметным прогрессом в выбранном направлении.</p></article>
+        <article class="card"><h3>2. Учитесь через задания</h3><p>Каждый модуль связан с практикой, материалами и формой сдачи работы.</p></article>
+        <article class="card"><h3>3. Собирайте достижения</h3><p>Завершённые курсы, сертификаты, проекты и проверенные задания попадают в раздел результатов.</p></article>
       </div>
     </section>
 
     <section class="section">
       <div class="section-head">
         <h2>Примеры курсов</h2>
-        <p>Моковые карточки показывают будущую структуру каталога и страниц курсов.</p>
       </div>
       <div class="grid grid-3">${courses.slice(0, 6).map(courseCard).join("")}</div>
     </section>
@@ -342,13 +300,13 @@ function homePage() {
         <div class="card">
           <span class="icon-chip">${icon("users")}</span>
           <h2>Практики вместо лекторов</h2>
-          <p class="muted">Занятия ведут специалисты, которые работают с языками, 3D и AI каждый день. Они помогают собрать понятный учебный маршрут и довести практику до результата.</p>
+          <p class="muted">Занятия ведут специалисты, которые работают в индустрии каждый день. Они помогают собрать понятный учебный маршрут и довести практику до видимого результата!</p>
           <div class="actions"><a class="btn btn-ghost" href="#/teachers">${icon("arrow-right")} Познакомиться с командой</a></div>
         </div>
         <div class="card">
           <span class="icon-chip">${icon("message-square-text")}</span>
           <h2>Подберём курс под вашу цель</h2>
-          <p class="muted">Расскажите, чему хотите научиться. Мы уточним уровень, формат и предложим подходящую программу.</p>
+          <p class="muted">Расскажите, чему хотите научиться. Мы уточним комфортный формат обучения и предложим подходящую программу.</p>
           <div class="actions"><a class="btn btn-primary" href="#/contacts">${icon("send")} Записаться</a></div>
         </div>
       </div>
@@ -359,7 +317,7 @@ function homePage() {
 function coursesPage(activeFilter = "Все") {
   const visible = activeFilter === "Все" ? courses : courses.filter((course) => course.filter === activeFilter);
   return `
-    ${pageTitle("Каталог курсов", "Выберите направление и курс. Все карточки сейчас работают на моковых данных, но структура готова под API и базу данных.")}
+    ${pageTitle("Каталог курсов", "Выберите направление и курс.")}
     <div class="filters">
       ${["Все", "English", "Blender", "AI / NLP"]
         .map((filter) => `<button class="filter-btn ${filter === activeFilter ? "active" : ""}" data-filter="${filter}">${filter}</button>`)
@@ -389,7 +347,7 @@ function coursePage(id) {
         </article>
         <article class="card">
           <h2>Формат обучения</h2>
-          <p>Занятия с преподавателем, видео или презентации, практические материалы, обратная связь и итоговый проект.</p>
+          <p>Онлайн уроки, видео, презентации, материалы, домашние задания, проверка работ и зримый прогресс.</p>
         </article>
         <article class="card">
           <h2>Итоговый результат</h2>
@@ -420,12 +378,12 @@ function directionsPage() {
 
 function teachersPage() {
   const teachers = [
-    { name: "Елена Морозова", role: "English и методика", icon: "languages", text: "Помогает студентам говорить увереннее, писать понятнее и видеть реальный прогресс по языковым навыкам." },
-    { name: "Кирилл Рэй", role: "Blender и 3D-дизайн", icon: "box", text: "3D artist и motion designer. Ведёт от первого знакомства с Blender до законченного проекта для портфолио." },
-    { name: "Илья Ким", role: "Python и NLP", icon: "brain-circuit", text: "NLP engineer. Объясняет программирование через практические notebooks, данные и мини-проекты." },
-    { name: "Дина Назарова", role: "AI и автоматизация", icon: "workflow", text: "AI product engineer. Помогает собирать прикладные AI-сценарии и оформлять кейсы для резюме." },
-    { name: "Ника Сол", role: "Свет, рендер и анимация", icon: "aperture", text: "Lighting artist. Учит презентации 3D-работ, композиции света и созданию выразительного финального рендера." },
-    { name: "Антон Ли", role: "English for Tech", icon: "code-xml", text: "Готовит IT-специалистов к рабочим встречам, чтению документации и техническим интервью." },
+    { name: "Снежана Соловьева", role: "English и методика", icon: "languages", text: "Помогает студентам говорить увереннее, писать понятнее и видеть реальный прогресс по языковым навыкам." },
+    { name: "Полина Крылова", role: "Blender и 3D-дизайн", icon: "box", text: "3D artist и motion designer. Ведёт от первого знакомства с Blender до законченного проекта для портфолио." },
+    { name: "Лена Кругликова", role: "Python и NLP", icon: "brain-circuit", text: "NLP engineer. Объясняет программирование через практические notebooks, данные и мини-проекты." },
+    { name: "Лена Кругликова", role: "AI и автоматизация", icon: "workflow", text: "AI product engineer. Помогает собирать прикладные AI-сценарии и оформлять кейсы для резюме." },
+    { name: "Полина Крылова", role: "Свет, рендер и анимация", icon: "aperture", text: "Lighting artist. Учит презентации 3D-работ, композиции света и созданию выразительного финального рендера." },
+    { name: "Кристина Ефремова", role: "English for Tech", icon: "code-xml", text: "Готовит IT-специалистов к рабочим встречам, чтению документации и техническим интервью." },
   ];
 
   return `
@@ -451,12 +409,8 @@ function teachersPage() {
 
 function reviewsPage() {
   const reviews = [
-    { name: "Алина", course: "Английский для IT", result: "Перешла на рабочие встречи на английском", text: "Занятия были очень прикладными: разбирали митинги, переписку и мои реальные рабочие ситуации. Стало проще говорить и задавать вопросы команде." },
-    { name: "Максим", course: "Blender с нуля", result: "Собрал первый 3D-проект для портфолио", text: "До курса Blender казался слишком сложным. Здесь всё было разбито на понятные этапы, а обратная связь помогла довести финальный рендер до хорошего уровня." },
-    { name: "София", course: "Основы NLP", result: "Оформила NLP-кейс на GitHub", text: "Понравилось, что теория сразу переходила в notebooks и мини-проекты. В итоге появился проект, который можно показать на собеседовании." },
-    { name: "Дмитрий", course: "Разговорный английский", result: "Начал увереннее говорить", text: "Много практики без ощущения школьного урока. Преподаватель объяснял ошибки спокойно и помогал формулировать мысли естественнее." },
-    { name: "Мария", course: "Материалы, свет и рендер", result: "Обновила 3D-портфолио", text: "После курса мои работы стали выглядеть заметно профессиональнее. Особенно полезными были разборы света, камеры и презентации проекта." },
-    { name: "Артём", course: "Python с нуля", result: "Сделал первую автоматизацию", text: "Не просто изучал синтаксис, а сразу применял его в небольших задачах. Теперь понимаю, как продолжать обучение и собирать свои проекты." },
+    { name: "Алена", course: "Разговорный английский", result: "Перешла на рабочие встречи на английском", text: "Занятия были очень прикладными: разбирали митинги, переписку и мои реальные рабочие ситуации. Стало проще говорить и задавать вопросы команде." },
+    { name: "Олег", course: "Разговорный английский", result: "Начал увереннее говорить", text: "Много практики без ощущения школьного урока. Преподаватель объяснял ошибки спокойно и помогал формулировать мысли естественнее." }
   ];
 
   return `
@@ -499,24 +453,28 @@ function contactsPage() {
         <span class="icon-chip">${icon("message-square-text")}</span>
         <h2>Заявка на консультацию</h2>
         <form class="contact-form" data-contact-form>
-          <label>Имя<input class="input" type="text" placeholder="Как к вам обращаться" required /></label>
-          <label>Контакт<input class="input" type="text" placeholder="Telegram, email или телефон" required /></label>
+          <input type="hidden" name="_subject" value="Новая заявка с сайта Edu Learning" />
+          <input type="hidden" name="_template" value="table" />
+          <input class="form-honey" type="text" name="_honey" tabindex="-1" autocomplete="off" />
+          <label>Имя<input class="input" type="text" name="Имя" placeholder="Как к вам обращаться" autocomplete="name" required /></label>
+          <label>Контакт<input class="input" type="text" name="Контакт" placeholder="Telegram, email или телефон" required /></label>
           <label>Направление
-            <select class="input">
+            <select class="input" name="Направление">
               <option>English</option>
               <option>Blender и 3D-дизайн</option>
               <option>AI / NLP / Python</option>
               <option>Пока не определился</option>
             </select>
           </label>
-          <label>Цель<textarea class="input" rows="4" placeholder="Чему хотите научиться"></textarea></label>
+          <label>Цель<textarea class="input" name="Цель" rows="4" placeholder="Чему хотите научиться"></textarea></label>
+          <label class="consent-row"><input type="checkbox" required /> <span>Согласен на обработку данных для связи по заявке</span></label>
           <button class="btn btn-primary" type="submit">${icon("send")} Отправить заявку</button>
-          <p class="form-status" data-form-status></p>
+          <p class="form-status" data-form-status aria-live="polite"></p>
         </form>
       </article>
       <aside class="grid">
-        <article class="card"><span class="icon-chip">${icon("send")}</span><h3>Telegram</h3><p>@edulearning</p></article>
-        <article class="card"><span class="icon-chip">${icon("mail")}</span><h3>Email</h3><p>hello@edulearning.ru</p></article>
+        <a class="card contact-card" href="https://t.me/solovyevasn" target="_blank" rel="noreferrer"><span class="icon-chip">${icon("send")}</span><h3>Telegram</h3><p>@solovyevasn</p></a>
+        <a class="card contact-card" href="mailto:edulearning@yandex.ru"><span class="icon-chip">${icon("mail")}</span><h3>Email</h3><p>edulearning@yandex.ru</p></a>
         <article class="card"><span class="icon-chip">${icon("clock-3")}</span><h3>Время ответа</h3><p>Обычно отвечаем в течение рабочего дня.</p></article>
       </aside>
     </section>
@@ -571,11 +529,41 @@ document.addEventListener("click", (event) => {
 
 });
 
-document.addEventListener("submit", (event) => {
+document.addEventListener("submit", async (event) => {
   const contactForm = event.target.closest("[data-contact-form]");
   if (!contactForm) return;
   event.preventDefault();
-  contactForm.querySelector("[data-form-status]").textContent = "Заявка принята. Мы свяжемся с вами в ближайшее время.";
+
+  const status = contactForm.querySelector("[data-form-status]");
+  const submitButton = contactForm.querySelector('button[type="submit"]');
+  const formData = new FormData(contactForm);
+  const payload = Object.fromEntries(formData.entries());
+
+  submitButton.disabled = true;
+  status.className = "form-status";
+  status.textContent = "Отправляем заявку...";
+
+  try {
+    const response = await fetch("https://formsubmit.co/ajax/edulearning@yandex.ru", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) throw new Error("Form submission failed");
+
+    contactForm.reset();
+    status.classList.add("success");
+    status.textContent = "Заявка отправлена. Мы свяжемся с вами в ближайшее время.";
+  } catch (error) {
+    status.classList.add("error");
+    status.textContent = "Не удалось отправить заявку. Напишите нам на edulearning@yandex.ru.";
+  } finally {
+    submitButton.disabled = false;
+  }
 });
 
 window.addEventListener("hashchange", render);
