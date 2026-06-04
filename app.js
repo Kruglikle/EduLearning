@@ -210,6 +210,25 @@ const lessons = [
 ];
 
 const app = document.querySelector("#app");
+const root = document.documentElement;
+
+function getPreferredTheme() {
+  const savedTheme = localStorage.getItem("edu-learning-theme");
+  if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+
+function setTheme(theme) {
+  root.dataset.theme = theme;
+  localStorage.setItem("edu-learning-theme", theme);
+
+  const toggle = document.querySelector("[data-theme-toggle]");
+  if (!toggle) return;
+
+  const nextTheme = theme === "dark" ? "светлую" : "тёмную";
+  toggle.setAttribute("aria-label", `Включить ${nextTheme} тему`);
+  toggle.innerHTML = `<i data-lucide="${theme === "dark" ? "sun" : "moon"}" data-theme-icon aria-hidden="true"></i>`;
+}
 
 function icon(name) {
   return `<i data-lucide="${name}" aria-hidden="true"></i>`;
@@ -267,26 +286,26 @@ function homePage() {
         <p>Осваивайте иностранные языки, 3D-дизайн, программирование через практику, проекты и персональный прогресс.</p>
         <div class="actions">
           <a class="btn btn-primary" href="#/courses">${icon("layers")} Выбрать курс</a>
-          <a class="btn btn-ghost" href="#/dashboard">${icon("log-in")} Войти</a>
+          <a class="btn btn-ghost" href="#/contacts">${icon("send")} Записаться</a>
         </div>
       </div>
       <div class="hero-console" aria-label="Интерфейс платформы">
         <div class="console-inner">
           <div class="status-row">
+            <div class="metric"><span>направления</span><strong>3</strong></div>
             <div class="metric"><span>курсы</span><strong>12</strong></div>
-            <div class="metric"><span>прогресс</span><strong>68%</strong></div>
-            <div class="metric"><span>проекты</span><strong>9</strong></div>
+            <div class="metric"><span>форматы</span><strong>4</strong></div>
           </div>
           <div class="course-radar">
             <div class="orbital"><div class="orbital-core">${icon("graduation-cap")}</div></div>
             <div class="stack-list">
-              <div class="stack-item"><strong>English skill map</strong><span>reading + writing</span></div>
-              <div class="stack-item"><strong>Blender portfolio</strong><span>render pipeline</span></div>
-              <div class="stack-item"><strong>AI / NLP lab</strong><span>Colab + GitHub</span></div>
-              <div class="stack-item"><strong>Homework review</strong><span>ready for feedback</span></div>
+              <div class="stack-item"><strong>English studio</strong><span>язык для жизни и работы</span></div>
+              <div class="stack-item"><strong>Blender lab</strong><span>3D и портфолио</span></div>
+              <div class="stack-item"><strong>AI workshop</strong><span>Python, NLP и инструменты</span></div>
+              <div class="stack-item"><strong>Наставники</strong><span>практики индустрии</span></div>
             </div>
           </div>
-          <div class="lesson-pill"><strong>Следующий урок</strong><span>Python Core: функции и данные</span></div>
+          <div class="lesson-pill"><strong>Ближайший старт</strong><span>Новые группы открыты для записи</span></div>
         </div>
       </div>
     </section>
@@ -307,7 +326,7 @@ function homePage() {
       <div class="grid grid-3">
         <article class="card"><span class="icon-chip">${icon("scan-line")}</span><h3>Навыки в динамике</h3><p>Отдельные метрики по урокам, заданиям, тестам, проектам и прикладным навыкам.</p></article>
         <article class="card"><span class="icon-chip">${icon("folder-check")}</span><h3>Практические артефакты</h3><p>Colab-блокноты, GitHub-репозитории, 3D-рендеры и проверенные письменные задания.</p></article>
-        <article class="card"><span class="icon-chip">${icon("shield-check")}</span><h3>Готово к развитию</h3><p>Frontend-структура подготовлена под авторизацию, оплату, файлы и проверку домашних заданий.</p></article>
+        <article class="card"><span class="icon-chip">${icon("messages-square")}</span><h3>Поддержка преподавателя</h3><p>Наставник помогает с практикой, отвечает на вопросы и даёт обратную связь по итоговым работам.</p></article>
       </div>
     </section>
 
@@ -334,18 +353,16 @@ function homePage() {
     <section class="section">
       <div class="split">
         <div class="card">
-          <span class="icon-chip">${icon("award")}</span>
-          <h2>Мои результаты</h2>
-          <p class="muted">Единый раздел достижений студента: сертификаты, завершённые курсы, лучшие работы, проекты, прогресс по навыкам, ссылки на GitHub/Colab, 3D-работы и проверенные задания по английскому.</p>
-          <div class="actions"><a class="btn btn-primary" href="#/results">${icon("chart-no-axes-combined")} Смотреть результаты</a></div>
+          <span class="icon-chip">${icon("users")}</span>
+          <h2>Практики вместо лекторов</h2>
+          <p class="muted">Занятия ведут специалисты, которые работают с языками, 3D и AI каждый день. Они помогают собрать понятный учебный маршрут и довести практику до результата.</p>
+          <div class="actions"><a class="btn btn-ghost" href="#/teachers">${icon("arrow-right")} Познакомиться с командой</a></div>
         </div>
         <div class="card">
-          <h3>Готовность MVP</h3>
-          <div class="skill-meter"><header><span>UI pages</span><span>100%</span></header><div class="progress"><span style="width:100%"></span></div></div>
-          <br />
-          <div class="skill-meter"><header><span>Mock data</span><span>100%</span></header><div class="progress"><span style="width:100%"></span></div></div>
-          <br />
-          <a class="btn btn-primary" href="#/courses">${icon("rocket")} Начать обучение</a>
+          <span class="icon-chip">${icon("message-square-text")}</span>
+          <h2>Подберём курс под вашу цель</h2>
+          <p class="muted">Расскажите, чему хотите научиться. Мы уточним уровень, формат и предложим подходящую программу.</p>
+          <div class="actions"><a class="btn btn-primary" href="#/contacts">${icon("send")} Записаться</a></div>
         </div>
       </div>
     </section>
@@ -401,7 +418,7 @@ function coursePage(id) {
           <li>${icon("clock")} Длительность: ${course.duration}</li>
           <li>${icon("user-round")} Преподаватель: ${course.teacher}</li>
         </ul>
-        <div class="actions"><a class="btn btn-primary" href="#/lesson/${course.id}">${icon("play")} Начать обучение</a></div>
+        <div class="actions"><a class="btn btn-primary" href="#/contacts">${icon("send")} Записаться на курс</a></div>
       </aside>
     </section>
   `;
@@ -533,6 +550,111 @@ function directionsPage() {
   `;
 }
 
+function teachersPage() {
+  const teachers = [
+    { name: "Елена Морозова", role: "English и методика", icon: "languages", text: "Помогает студентам говорить увереннее, писать понятнее и видеть реальный прогресс по языковым навыкам." },
+    { name: "Кирилл Рэй", role: "Blender и 3D-дизайн", icon: "box", text: "3D artist и motion designer. Ведёт от первого знакомства с Blender до законченного проекта для портфолио." },
+    { name: "Илья Ким", role: "Python и NLP", icon: "brain-circuit", text: "NLP engineer. Объясняет программирование через практические notebooks, данные и мини-проекты." },
+    { name: "Дина Назарова", role: "AI и автоматизация", icon: "workflow", text: "AI product engineer. Помогает собирать прикладные AI-сценарии и оформлять кейсы для резюме." },
+    { name: "Ника Сол", role: "Свет, рендер и анимация", icon: "aperture", text: "Lighting artist. Учит презентации 3D-работ, композиции света и созданию выразительного финального рендера." },
+    { name: "Антон Ли", role: "English for Tech", icon: "code-xml", text: "Готовит IT-специалистов к рабочим встречам, чтению документации и техническим интервью." },
+  ];
+
+  return `
+    ${pageTitle("Преподаватели", "Команда практиков из языкового образования, 3D-индустрии и AI-разработки.")}
+    <section class="grid grid-3">
+      ${teachers.map((teacher) => `
+        <article class="card teacher-card">
+          <span class="icon-chip">${icon(teacher.icon)}</span>
+          <span class="tag green">${teacher.role}</span>
+          <h3>${teacher.name}</h3>
+          <p>${teacher.text}</p>
+        </article>
+      `).join("")}
+    </section>
+    <section class="section">
+      <div class="card contact-banner">
+        <div><h2>Найдём преподавателя под вашу цель</h2><p>Оставьте заявку, и мы предложим курс, формат и специалиста для старта.</p></div>
+        <a class="btn btn-primary" href="#/contacts">${icon("send")} Записаться</a>
+      </div>
+    </section>
+  `;
+}
+
+function reviewsPage() {
+  const reviews = [
+    { name: "Алина", course: "Английский для IT", result: "Перешла на рабочие встречи на английском", text: "Занятия были очень прикладными: разбирали митинги, переписку и мои реальные рабочие ситуации. Стало проще говорить и задавать вопросы команде." },
+    { name: "Максим", course: "Blender с нуля", result: "Собрал первый 3D-проект для портфолио", text: "До курса Blender казался слишком сложным. Здесь всё было разбито на понятные этапы, а обратная связь помогла довести финальный рендер до хорошего уровня." },
+    { name: "София", course: "Основы NLP", result: "Оформила NLP-кейс на GitHub", text: "Понравилось, что теория сразу переходила в notebooks и мини-проекты. В итоге появился проект, который можно показать на собеседовании." },
+    { name: "Дмитрий", course: "Разговорный английский", result: "Начал увереннее говорить", text: "Много практики без ощущения школьного урока. Преподаватель объяснял ошибки спокойно и помогал формулировать мысли естественнее." },
+    { name: "Мария", course: "Материалы, свет и рендер", result: "Обновила 3D-портфолио", text: "После курса мои работы стали выглядеть заметно профессиональнее. Особенно полезными были разборы света, камеры и презентации проекта." },
+    { name: "Артём", course: "Python с нуля", result: "Сделал первую автоматизацию", text: "Не просто изучал синтаксис, а сразу применял его в небольших задачах. Теперь понимаю, как продолжать обучение и собирать свои проекты." },
+  ];
+
+  return `
+    ${pageTitle("Отзывы студентов", "Результаты и впечатления людей, которые учились в Edu Learning.")}
+    <section class="review-summary">
+      <div class="result-stat"><strong>4.9</strong><span>средняя оценка</span></div>
+      <div class="result-stat"><strong>92%</strong><span>доходят до итогового проекта</span></div>
+      <div class="result-stat"><strong>3</strong><span>практических направления</span></div>
+      <div class="result-stat"><strong>1:1</strong><span>обратная связь наставника</span></div>
+    </section>
+    <section class="section">
+      <div class="grid grid-3">
+        ${reviews.map((review) => `
+          <article class="card review-card">
+            <div class="review-top">
+              <span class="review-avatar">${review.name[0]}</span>
+              <div><h3>${review.name}</h3><span class="tag green">${review.course}</span></div>
+            </div>
+            <div class="review-stars" aria-label="5 из 5">${icon("star")} ${icon("star")} ${icon("star")} ${icon("star")} ${icon("star")}</div>
+            <p>${review.text}</p>
+            <strong class="review-result">${icon("check-circle-2")} ${review.result}</strong>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+    <section class="section">
+      <div class="card contact-banner">
+        <div><h2>Станьте следующим студентом</h2><p>Расскажите о своей цели, и мы подберём курс и формат обучения.</p></div>
+        <a class="btn btn-primary" href="#/contacts">${icon("send")} Записаться</a>
+      </div>
+    </section>
+  `;
+}
+
+function contactsPage() {
+  return `
+    ${pageTitle("Записаться на обучение", "Оставьте контакты и расскажите о своей цели. Мы свяжемся с вами, уточним уровень и подберём программу.")}
+    <section class="contact-layout">
+      <article class="card">
+        <span class="icon-chip">${icon("message-square-text")}</span>
+        <h2>Заявка на консультацию</h2>
+        <form class="contact-form" data-contact-form>
+          <label>Имя<input class="input" type="text" placeholder="Как к вам обращаться" required /></label>
+          <label>Контакт<input class="input" type="text" placeholder="Telegram, email или телефон" required /></label>
+          <label>Направление
+            <select class="input">
+              <option>English</option>
+              <option>Blender и 3D-дизайн</option>
+              <option>AI / NLP / Python</option>
+              <option>Пока не определился</option>
+            </select>
+          </label>
+          <label>Цель<textarea class="input" rows="4" placeholder="Чему хотите научиться"></textarea></label>
+          <button class="btn btn-primary" type="submit">${icon("send")} Отправить заявку</button>
+          <p class="form-status" data-form-status></p>
+        </form>
+      </article>
+      <aside class="grid">
+        <article class="card"><span class="icon-chip">${icon("send")}</span><h3>Telegram</h3><p>@edulearning</p></article>
+        <article class="card"><span class="icon-chip">${icon("mail")}</span><h3>Email</h3><p>hello@edulearning.ru</p></article>
+        <article class="card"><span class="icon-chip">${icon("clock-3")}</span><h3>Время ответа</h3><p>Обычно отвечаем в течение рабочего дня.</p></article>
+      </aside>
+    </section>
+  `;
+}
+
 function setActiveNav(route) {
   document.querySelectorAll(".main-nav a").forEach((link) => {
     const href = link.getAttribute("href");
@@ -550,6 +672,9 @@ function render() {
   else if (route === "lesson") app.innerHTML = lessonPage(id);
   else if (route === "results") app.innerHTML = resultsPage();
   else if (route === "directions") app.innerHTML = directionsPage();
+  else if (route === "teachers") app.innerHTML = teachersPage();
+  else if (route === "reviews") app.innerHTML = reviewsPage();
+  else if (route === "contacts") app.innerHTML = contactsPage();
   else app.innerHTML = homePage();
 
   setActiveNav(route || "");
@@ -569,10 +694,25 @@ document.addEventListener("click", (event) => {
     document.querySelector("[data-nav]").classList.toggle("open");
   }
 
+  const themeToggle = event.target.closest("[data-theme-toggle]");
+  if (themeToggle) {
+    setTheme(root.dataset.theme === "light" ? "dark" : "light");
+    renderIcons();
+  }
+
   if (event.target.closest(".main-nav a")) {
     document.querySelector("[data-nav]").classList.remove("open");
   }
+
+});
+
+document.addEventListener("submit", (event) => {
+  const contactForm = event.target.closest("[data-contact-form]");
+  if (!contactForm) return;
+  event.preventDefault();
+  contactForm.querySelector("[data-form-status]").textContent = "Заявка принята. Мы свяжемся с вами в ближайшее время.";
 });
 
 window.addEventListener("hashchange", render);
+setTheme(getPreferredTheme());
 render();
