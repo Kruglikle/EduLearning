@@ -196,19 +196,6 @@ const courses = [
   },
 ];
 
-const dashboardCourses = [
-  { id: "python-zero", progress: 68, next: "Notebook Practice: функции и данные", done: 14 },
-  { id: "blender-zero", progress: 42, next: "Materials: procedural shader", done: 8 },
-  { id: "english-it", progress: 81, next: "Interview Sprint: system design talk", done: 19 },
-];
-
-const lessons = [
-  { title: "Введение в курс", status: "выполнено" },
-  { title: "Python Core: функции", status: "в процессе" },
-  { title: "Notebook Practice", status: "не начато" },
-  { title: "Мини-проект: анализ текста", status: "не начато" },
-];
-
 const app = document.querySelector("#app");
 const root = document.documentElement;
 
@@ -321,10 +308,10 @@ function homePage() {
     <section class="section">
       <div class="section-head">
         <h2>Почему выбирают Edu Learning</h2>
-        <p>Платформа строится вокруг практики, видимого прогресса и работ, которые можно показать после обучения.</p>
+        <p>Обучение строится вокруг практики, понятного прогресса и работ, которые можно показать после курса.</p>
       </div>
       <div class="grid grid-3">
-        <article class="card"><span class="icon-chip">${icon("scan-line")}</span><h3>Навыки в динамике</h3><p>Отдельные метрики по урокам, заданиям, тестам, проектам и прикладным навыкам.</p></article>
+        <article class="card"><span class="icon-chip">${icon("scan-line")}</span><h3>Понятный рост</h3><p>Программа помогает последовательно развивать навыки и видеть результат на каждом этапе обучения.</p></article>
         <article class="card"><span class="icon-chip">${icon("folder-check")}</span><h3>Практические артефакты</h3><p>Colab-блокноты, GitHub-репозитории, 3D-рендеры и проверенные письменные задания.</p></article>
         <article class="card"><span class="icon-chip">${icon("messages-square")}</span><h3>Поддержка преподавателя</h3><p>Наставник помогает с практикой, отвечает на вопросы и даёт обратную связь по итоговым работам.</p></article>
       </div>
@@ -333,12 +320,12 @@ function homePage() {
     <section class="section">
       <div class="section-head">
         <h2>Как проходит обучение</h2>
-        <p>Уроки, материалы, задания и результаты собраны в едином интерфейсе, чтобы студент видел следующий шаг.</p>
+        <p>Каждый курс сочетает понятную теорию, практику, обратную связь преподавателя и итоговый проект.</p>
       </div>
       <div class="grid grid-3">
         <article class="card"><h3>1. Выберите курс</h3><p>Фильтры по направлениям помогают быстро найти нужный трек и уровень.</p></article>
-        <article class="card"><h3>2. Учитесь через задания</h3><p>Каждый модуль связан с практикой, материалами и формой сдачи работы.</p></article>
-        <article class="card"><h3>3. Собирайте достижения</h3><p>Завершённые курсы, сертификаты, проекты и проверенные задания попадают в раздел результатов.</p></article>
+        <article class="card"><h3>2. Учитесь через практику</h3><p>Разбирайте материал вместе с преподавателем и закрепляйте знания на прикладных задачах.</p></article>
+        <article class="card"><h3>3. Создайте итоговый проект</h3><p>Завершите курс готовой работой, кейсом или заметным прогрессом в выбранном направлении.</p></article>
       </div>
     </section>
 
@@ -402,7 +389,7 @@ function coursePage(id) {
         </article>
         <article class="card">
           <h2>Формат обучения</h2>
-          <p>Уроки, видео или презентации, материалы, домашние задания, проверка работ и визуальный прогресс в личном кабинете.</p>
+          <p>Занятия с преподавателем, видео или презентации, практические материалы, обратная связь и итоговый проект.</p>
         </article>
         <article class="card">
           <h2>Итоговый результат</h2>
@@ -420,125 +407,6 @@ function coursePage(id) {
         </ul>
         <div class="actions"><a class="btn btn-primary" href="#/contacts">${icon("send")} Записаться на курс</a></div>
       </aside>
-    </section>
-  `;
-}
-
-function dashboardPage() {
-  return `
-    ${pageTitle("Личный кабинет", "Курсы, прогресс, задания, сертификаты, проекты и работы студента в одном интерфейсе.")}
-    <div class="dashboard-tabs">
-      ${["Мои курсы", "Прогресс", "Задания", "Сертификаты", "Проекты и работы"].map((item, index) => `<span class="tab ${index === 0 ? "active" : ""}">${item}</span>`).join("")}
-    </div>
-    <section class="grid grid-3">
-      ${dashboardCourses
-        .map((item) => {
-          const course = courses.find((courseItem) => courseItem.id === item.id);
-          return `
-            <article class="card">
-              <span class="tag green">${course.direction}</span>
-              <h3>${course.title}</h3>
-              <p>Следующий урок: ${item.next}</p>
-              <div class="tag-row"><span class="tag">${icon("file-check")} Выполнено заданий: ${item.done}</span></div>
-              <div class="skill-meter"><header><span>Прогресс</span><span>${item.progress}%</span></header><div class="progress"><span style="width:${item.progress}%"></span></div></div>
-              <div class="course-card-footer"><span class="muted">${course.level}</span><a class="btn btn-primary" href="#/lesson/${course.id}">${icon("play")} Продолжить</a></div>
-            </article>
-          `;
-        })
-        .join("")}
-    </section>
-    <section class="section">
-      <div class="grid grid-2">
-        <article class="card"><h3>Ближайшие задания</h3><ul class="clean-list"><li>${icon("check")} Сдать Colab по функциям Python</li><li>${icon("check")} Загрузить Blender render WIP</li><li>${icon("check")} Отправить writing task для English IT</li></ul></article>
-        <article class="card"><h3>Сертификаты</h3><p>Здесь появятся сертификаты после завершения курсов и прохождения финальных проверок.</p></article>
-      </div>
-    </section>
-  `;
-}
-
-function lessonPage(courseId) {
-  const course = courses.find((item) => item.id === courseId) || courses.find((item) => item.id === "python-zero");
-  const isAi = course.filter === "AI / NLP";
-  return `
-    ${pageTitle("Python Core: функции и данные", course.title)}
-    <section class="lesson-layout">
-      <aside class="card lesson-nav">
-        <h3>Уроки курса</h3>
-        ${lessons.map((lesson, index) => `<button class="lesson-link ${index === 1 ? "active" : ""}"><strong>${lesson.title}</strong><span>${lesson.status}</span></button>`).join("")}
-      </aside>
-      <div class="grid">
-        <article class="card">
-          <div class="tag-row">
-            <span class="tag green">${icon("activity")} Статус: в процессе</span>
-            <span class="tag">${course.direction}</span>
-          </div>
-          <h2>Лонгрид урока</h2>
-          <p>В этом уроке студент разбирает ключевую тему модуля, смотрит демонстрацию, повторяет практику и фиксирует результат в домашнем задании. Для MVP текст показывает будущую структуру контента: теория, примеры, контрольные вопросы и связь с итоговым проектом.</p>
-        </article>
-        <article class="card">
-          <h2>Видео или презентация</h2>
-          <div class="media-box">
-            <div>
-              ${icon("presentation")}
-              <h3>Learning media placeholder</h3>
-              <p class="muted">Здесь будет видео, презентация или интерактивный материал урока.</p>
-            </div>
-          </div>
-        </article>
-        <article class="card">
-          <h2>Материалы</h2>
-          <ul class="clean-list">
-            <li>${icon("file-text")} Конспект урока</li>
-            <li>${icon("download")} Практический шаблон</li>
-            <li>${icon("link")} Дополнительные ссылки</li>
-          </ul>
-          ${isAi ? `<div class="actions"><a class="btn btn-ghost" href="https://colab.research.google.com/" target="_blank" rel="noreferrer">${icon("external-link")} Открыть Colab</a></div>` : ""}
-        </article>
-        <article class="card">
-          <h2>Домашнее задание</h2>
-          <p>Сдайте ссылку на работу или прикрепите файл. После подключения backend здесь появятся загрузка файлов, статусы проверки и комментарии преподавателя.</p>
-          <form class="assignment-form">
-            <input class="input" type="url" placeholder="Ссылка на GitHub, Colab, render, документ или файл" />
-            <input class="input" type="file" />
-            <button class="btn btn-primary" type="button">${icon("send")} Отправить задание</button>
-          </form>
-        </article>
-      </div>
-    </section>
-  `;
-}
-
-function resultsPage() {
-  return `
-    ${pageTitle("Мои результаты", "Единый раздел достижений студента: сертификаты, курсы, проекты, навыки и проверенные работы.")}
-    <section class="result-strip">
-      <div class="result-stat"><strong>3</strong><span>завершённых курса</span></div>
-      <div class="result-stat"><strong>7</strong><span>лучших работ</span></div>
-      <div class="result-stat"><strong>24</strong><span>проверенных задания</span></div>
-      <div class="result-stat"><strong>5</strong><span>сертификатов и тестов</span></div>
-    </section>
-    <section class="section">
-      <div class="grid grid-2">
-        <article class="card"><span class="icon-chip">${icon("award")}</span><h3>Сертификаты</h3><p>English IT, Python с нуля, Blender с нуля. Сертификаты появятся после финальной проверки и завершения курса.</p></article>
-        <article class="card"><span class="icon-chip">${icon("graduation-cap")}</span><h3>Завершённые курсы</h3><p>История обучения с датами, итоговыми результатами и ссылками на итоговые работы.</p></article>
-        <article class="card"><span class="icon-chip">${icon("star")}</span><h3>Лучшие работы и проекты</h3><p>3D-работы для Blender, AI/NLP-кейсы, Colab-блокноты, GitHub-ссылки и учебные проекты.</p></article>
-        <article class="card"><span class="icon-chip">${icon("languages")}</span><h3>Английский язык</h3><p>Прогресс по языковым навыкам, проверенные письменные задания, сертификаты и результаты тестов.</p></article>
-      </div>
-    </section>
-    <section class="section">
-      <div class="section-head"><h2>Прогресс по навыкам</h2><p>Моковые метрики показывают, как будет выглядеть аналитика студента после подключения данных.</p></div>
-      <div class="grid grid-2">
-        ${[
-          ["Python", 72],
-          ["NLP", 58],
-          ["Blender modeling", 64],
-          ["English reading", 83],
-          ["English writing", 76],
-          ["Project delivery", 69],
-        ]
-          .map(([name, value]) => `<article class="card skill-meter"><header><span>${name}</span><span>${value}%</span></header><div class="progress"><span style="width:${value}%"></span></div></article>`)
-          .join("")}
-      </div>
     </section>
   `;
 }
@@ -668,9 +536,6 @@ function render() {
 
   if (route === "courses") app.innerHTML = coursesPage();
   else if (route === "course") app.innerHTML = coursePage(id);
-  else if (route === "dashboard") app.innerHTML = dashboardPage();
-  else if (route === "lesson") app.innerHTML = lessonPage(id);
-  else if (route === "results") app.innerHTML = resultsPage();
   else if (route === "directions") app.innerHTML = directionsPage();
   else if (route === "teachers") app.innerHTML = teachersPage();
   else if (route === "reviews") app.innerHTML = reviewsPage();
