@@ -609,6 +609,10 @@ input {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.teachers-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .grid-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -1028,8 +1032,38 @@ textarea.input {
   transform: translateY(-2px);
 }
 
-.teacher-card .tag {
-  margin-bottom: 14px;
+.teacher-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  margin-bottom: 20px;
+}
+
+.teacher-icon {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 0;
+}
+
+.teacher-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.teacher-role {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: clamp(11px, 0.95vw, 13px);
+  line-height: 1.2;
+  margin-bottom: 0;
+  padding: 10px 12px;
 }
 
 .contact-banner {
@@ -1045,7 +1079,10 @@ textarea.input {
 
 .review-card {
   display: grid;
+  grid-template-rows: auto auto 168px auto auto;
+  align-self: start;
   gap: 16px;
+  height: auto;
 }
 
 .review-text {
@@ -1069,7 +1106,9 @@ textarea.input {
 }
 
 .review-text.is-expanded {
-  max-height: none;
+  max-height: 168px;
+  overflow-y: auto;
+  padding-right: 6px;
 }
 
 .review-top {
@@ -1365,6 +1404,7 @@ textarea.input {
 
   .grid-3,
   .grid-2,
+  .teachers-grid,
   .result-strip {
     grid-template-columns: 1fr 1fr;
   }
@@ -1447,6 +1487,7 @@ textarea.input {
   .course-radar,
   .grid-3,
   .grid-2,
+  .teachers-grid,
   .result-strip {
     grid-template-columns: 1fr;
   }

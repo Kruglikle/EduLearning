@@ -489,21 +489,21 @@ function coursePage(id) {
 
 function teachersPage() {
   const teachers = [
-    { name: "Снежана Соловьева", role: "English и методика", icon: "languages", text: "Помогает студентам говорить увереннее, писать понятнее и видеть реальный прогресс по языковым навыкам." },
-    { name: "Полина Крылова", role: "Blender и 3D-дизайн", icon: "box", text: "3D artist и motion designer. Ведёт от первого знакомства с Blender до законченного проекта для портфолио." },
-    { name: "Лена Кругликова", role: "Python и NLP", icon: "brain-circuit", text: "NLP engineer. Объясняет программирование через практические notebooks, данные и мини-проекты." },
-    { name: "Лена Кругликова", role: "AI и автоматизация", icon: "workflow", text: "AI product engineer. Помогает собирать прикладные AI-сценарии и оформлять кейсы для резюме." },
-    { name: "Полина Крылова", role: "Свет, рендер и анимация", icon: "aperture", text: "Lighting artist. Учит презентации 3D-работ, композиции света и созданию выразительного финального рендера." },
-    { name: "Кристина Ефремова", role: "English for Tech", icon: "code-xml", text: "Готовит IT-специалистов к рабочим встречам, чтению документации и техническим интервью." },
+    { name: "Снежана Соловьева", role: "Преподаватель английского языка, методист", icon: "languages", text: "Помогает студентам начать говорить увереннее, писать понятнее и видеть реальный прогресс по языковым навыкам." },
+    { name: "Полина Крылова", role: "Дизайнер, аналитик", icon: "box", text: "Ведёт от первого знакомства с Blender до полноценного проекта для портфолио." },
+    { name: "Лена Кругликова", role: "ML-инженер, методист EduLearning", icon: "brain-circuit", text: "Объясняет программирование через практические задачи, данные и мини-проекты." },
+    { name: "Кристина Ефремова", role: "Преподаватель английского языка, переводчик", icon: "code-xml", text: "Помогает освоить разговорный английский для уверенного общения на иностранном языке." },
   ];
 
   return `
     ${pageTitle("Преподаватели", "Команда практиков из языкового образования, 3D-индустрии и AI-разработки.")}
-    <section class="grid grid-3">
+    <section class="grid grid-3 teachers-grid">
       ${teachers.map((teacher) => `
         <article class="card teacher-card">
-          <span class="icon-chip">${icon(teacher.icon)}</span>
-          <span class="tag green">${teacher.role}</span>
+          <div class="teacher-heading">
+            <span class="icon-chip teacher-icon">${icon(teacher.icon)}</span>
+            <span class="tag green teacher-role">${teacher.role}</span>
+          </div>
           <h3>${teacher.name}</h3>
           <p>${teacher.text}</p>
         </article>
@@ -511,7 +511,7 @@ function teachersPage() {
     </section>
     <section class="section">
       <div class="card contact-banner">
-        <div><h2>Найдём преподавателя под вашу цель</h2><p>Оставьте заявку, и мы предложим курс, формат и специалиста для старта.</p></div>
+        <div><h2>Найдем курс под вашу цель</h2><p>Оставьте заявку, и мы предложим курс, формат и специалиста для старта.</p></div>
         <a class="btn btn-primary" href="#/contacts">${icon("send")} Записаться</a>
       </div>
     </section>
