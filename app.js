@@ -34,10 +34,17 @@ const courses = [
     level: "Beginner",
     duration: "8 недель",
     summary: "База грамматики, произношения, чтения и простых диалогов через ежедневную практику.",
-    result: "Прогресс по языковым навыкам, проверенные задания и сертификат.",
+    result: "Уверенный разговорный английский, возможность развивать и совершенствовать язык дальше.",
     audience: "Новичкам, которые хотят уверенно стартовать без перегруза теорией.",
     learn: ["понимать короткие тексты и аудио", "вести простые диалоги", "писать короткие тексты"],
     modules: ["Start Pack", "Everyday Grammar", "Listening Lab", "Speaking Practice"],
+    advantages: [
+      "До 70% занятия коммуникация на английском языке",
+      "Работа по методике Communicative Language Teaching (CLT) + Task-Based Learning (TBL)",
+      "Разговорные клубы и специальный чат",
+      "Индивидуальная настройка учебных материалов",
+      "Гибкий график занятий и формат обучения",
+    ],
     teacher: "Снежана Соловьева, преподаватель английского и методист EdTech",
   },
   {
@@ -156,6 +163,8 @@ const courses = [
 
 const app = document.querySelector("#app");
 const root = document.documentElement;
+const palettes = ["green", "orange", "blue"];
+const activeCourseIds = ["english-zero", "spoken-english", "3d-modeling", "python-zero", "nlp-basics"];
 
 function getPreferredTheme() {
   const savedTheme = localStorage.getItem("edu-learning-theme");
@@ -175,6 +184,23 @@ function setTheme(theme) {
   toggle.innerHTML = `<i data-lucide="${theme === "dark" ? "sun" : "moon"}" data-theme-icon aria-hidden="true"></i>`;
 }
 
+function getPreferredPalette() {
+  const savedPalette = localStorage.getItem("edu-learning-palette");
+  return palettes.includes(savedPalette) ? savedPalette : "green";
+}
+
+function setPalette(palette) {
+  const safePalette = palettes.includes(palette) ? palette : "green";
+  root.dataset.palette = safePalette;
+  localStorage.setItem("edu-learning-palette", safePalette);
+
+  document.querySelectorAll("[data-palette-option]").forEach((button) => {
+    const isActive = button.dataset.paletteOption === safePalette;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
 function icon(name) {
   return `<i data-lucide="${name}" aria-hidden="true"></i>`;
 }
@@ -186,7 +212,7 @@ function renderIcons() {
 }
 
 function pageTitle(title, text) {
-  return `<section class="page-title"><span class="eyebrow">${icon("sparkles")} Futuristic EdTech platform</span><h1>${title}</h1><p>${text}</p></section>`;
+  return `<section class="page-title"><h1>${title}</h1><p>${text}</p></section>`;
 }
 
 function directionCards() {
@@ -203,22 +229,98 @@ function directionCards() {
     .join("");
 }
 
-function courseCard(course) {
+function orderedCourses(list = courses) {
+  const activeIndex = new Map(activeCourseIds.map((id, index) => [id, index]));
+  return [...list].sort((a, b) => {
+    const aActive = activeIndex.has(a.id);
+    const bActive = activeIndex.has(b.id);
+    if (aActive && bActive) return activeIndex.get(a.id) - activeIndex.get(b.id);
+    if (aActive) return -1;
+    if (bActive) return 1;
+    return courses.findIndex((course) => course.id === a.id) - courses.findIndex((course) => course.id === b.id);
+  });
+}
+
+function courseCard(course, options = {}) {
+  const isActive = activeCourseIds.includes(course.id);
+  const signupLabel = isActive ? "Записаться" : "Предзапись";
   return `
     <article class="card">
       <span class="tag green">${course.direction}</span>
+      <span class="tag ${isActive ? "status-active" : "status-dev"}">${isActive ? "Идёт набор" : "В разработке"}</span>
       <h3>${course.title}</h3>
       <div class="tag-row">
         <span class="tag">${icon("signal")} ${course.level}</span>
         <span class="tag">${icon("clock")} ${course.duration}</span>
       </div>
       <p>${course.summary}</p>
+      ${options.development ? `<p class="course-note">Можно предварительно записаться прямо сейчас.</p>` : ""}
       <div class="tag-row"><span class="tag green">${icon("target")} ${course.result}</span></div>
       <div class="course-card-footer">
-        <span class="muted">${course.modules.length} модуля</span>
-        <a class="btn btn-ghost" href="#/course/${course.id}">${icon("arrow-right")} Подробнее</a>
+        <div class="course-actions">
+          <a class="btn btn-ghost" href="#/course/${course.id}">${icon("arrow-right")} Подробнее</a>
+          <a class="btn btn-primary" href="#/contacts">${icon("send")} ${signupLabel}</a>
+        </div>
       </div>
     </article>
+  `;
+}
+
+function heroArt(kind) {
+  const art = {
+    english: {
+      title: "Language studio",
+      icon: "Aa",
+      left: "Speaking",
+      right: "Listening",
+      accent: "M120 440c150-50 250-40 370 0s210 45 330-20",
+    },
+    design: {
+      title: "3D design lab",
+      icon: "3D",
+      left: "Modeling",
+      right: "Render",
+      accent: "M260 190 480 90 700 190 700 410 480 525 260 410z",
+    },
+    ai: {
+      title: "AI workshop",
+      icon: "AI",
+      left: "Python",
+      right: "NLP",
+      accent: "M210 250 350 170 500 260 650 160 760 280M210 390 350 470 500 390 650 480 760 370",
+    },
+  }[kind];
+
+  return `
+    <div class="carousel-art">
+      <svg viewBox="0 0 960 640" role="img" aria-label="${art.title}">
+        <defs>
+          <linearGradient id="art-${kind}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="var(--green)" />
+            <stop offset=".55" stop-color="var(--cyan)" />
+            <stop offset="1" stop-color="var(--violet)" />
+          </linearGradient>
+          <filter id="blur-${kind}" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="22" />
+          </filter>
+        </defs>
+        <rect width="960" height="640" rx="36" fill="#071019" />
+        <circle cx="250" cy="170" r="132" fill="var(--green)" opacity=".16" filter="url(#blur-${kind})" />
+        <circle cx="740" cy="150" r="118" fill="var(--cyan)" opacity=".18" filter="url(#blur-${kind})" />
+        <g opacity=".26" stroke="var(--green)" stroke-width="1">
+          <path d="M0 500h960M0 430h960M0 360h960M0 290h960M120 0v640M240 0v640M360 0v640M480 0v640M600 0v640M720 0v640M840 0v640" />
+        </g>
+        <rect x="105" y="88" width="750" height="430" rx="30" fill="#ffffff" opacity=".08" stroke="url(#art-${kind})" stroke-opacity=".55" />
+        <rect x="150" y="145" width="230" height="138" rx="18" fill="#06120b" opacity=".78" stroke="var(--cyan)" stroke-opacity=".65" />
+        <rect x="580" y="145" width="230" height="138" rx="18" fill="#06120b" opacity=".72" stroke="var(--green)" stroke-opacity=".65" />
+        <path d="M185 195h130M185 230h85M615 195h130M615 230h95" stroke="url(#art-${kind})" stroke-width="11" stroke-linecap="round" opacity=".78" />
+        <path d="${art.accent}" fill="none" stroke="url(#art-${kind})" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity=".82" />
+        <circle cx="480" cy="320" r="96" fill="#06120b" opacity=".88" stroke="url(#art-${kind})" stroke-width="8" />
+        <text x="480" y="342" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="800" fill="var(--green)">${art.icon}</text>
+        <text x="265" y="350" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="var(--cyan)">${art.left}</text>
+        <text x="695" y="350" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="var(--green)">${art.right}</text>
+      </svg>
+    </div>
   `;
 }
 
@@ -226,7 +328,6 @@ function homePage() {
   return `
     <section class="hero">
       <div>
-        <span class="eyebrow">${icon("radar")} Soft cyberpunk learning system</span>
         <h1>Edu Learning</h1>
         <h2>Учись. Создавай. Исследуй.</h2>
         <p>Осваивайте иностранные языки, 3D-дизайн, программирование через практику, проекты и персональный прогресс.</p>
@@ -235,24 +336,28 @@ function homePage() {
           <a class="btn btn-ghost" href="#/contacts">${icon("send")} Записаться</a>
         </div>
       </div>
-      <div class="hero-console" aria-label="Интерфейс платформы">
-        <div class="console-inner">
-          <div class="status-row">
-            <div class="metric"><span>направления</span><strong>3</strong></div>
-            <div class="metric"><span>курсы</span><strong>12</strong></div>
-            <div class="metric"><span>форматы</span><strong>4</strong></div>
-          </div>
-          <div class="course-radar">
-            <div class="orbital"><div class="orbital-core">${icon("graduation-cap")}</div></div>
-            <div class="stack-list">
-              <div class="stack-item"><strong>English studio</strong><span>язык для жизни и работы</span></div>
-              <div class="stack-item"><strong>Blender lab</strong><span>3D и портфолио</span></div>
-              <div class="stack-item"><strong>AI workshop</strong><span>Python, NLP и инструменты</span></div>
-              <div class="stack-item"><strong>Наставники</strong><span>практики индустрии</span></div>
-            </div>
-          </div>
-          <div class="lesson-pill"><strong>Ближайший старт</strong><span>Новые группы открыты для записи</span></div>
+      <div class="hero-console hero-gallery" aria-label="Карусель учебных направлений">
+        <div class="carousel-track">
+          <figure class="carousel-slide">
+            ${heroArt("english")}
+          </figure>
+          <figure class="carousel-slide">
+            ${heroArt("design")}
+          </figure>
+          <figure class="carousel-slide">
+            ${heroArt("ai")}
+          </figure>
+          <figure class="carousel-slide" aria-hidden="true">
+            ${heroArt("english")}
+          </figure>
+          <figure class="carousel-slide" aria-hidden="true">
+            ${heroArt("design")}
+          </figure>
+          <figure class="carousel-slide" aria-hidden="true">
+            ${heroArt("ai")}
+          </figure>
         </div>
+        <div class="carousel-dots" aria-hidden="true"><span></span><span></span><span></span></div>
       </div>
     </section>
 
@@ -292,7 +397,7 @@ function homePage() {
       <div class="section-head">
         <h2>Примеры курсов</h2>
       </div>
-      <div class="grid grid-3">${courses.slice(0, 6).map(courseCard).join("")}</div>
+      <div class="grid grid-3">${orderedCourses().slice(0, 6).map((course) => courseCard(course, { development: !activeCourseIds.includes(course.id) })).join("")}</div>
     </section>
 
     <section class="section">
@@ -316,6 +421,8 @@ function homePage() {
 
 function coursesPage(activeFilter = "Все") {
   const visible = activeFilter === "Все" ? courses : courses.filter((course) => course.filter === activeFilter);
+  const activeCourses = orderedCourses(visible.filter((course) => activeCourseIds.includes(course.id)));
+  const developmentCourses = orderedCourses(visible.filter((course) => !activeCourseIds.includes(course.id)));
   return `
     ${pageTitle("Каталог курсов", "Выберите направление и курс.")}
     <div class="filters">
@@ -323,7 +430,16 @@ function coursesPage(activeFilter = "Все") {
         .map((filter) => `<button class="filter-btn ${filter === activeFilter ? "active" : ""}" data-filter="${filter}">${filter}</button>`)
         .join("")}
     </div>
-    <section class="grid grid-3">${visible.map(courseCard).join("")}</section>
+    ${activeCourses.length ? `<section class="grid grid-3">${activeCourses.map(courseCard).join("")}</section>` : ""}
+    ${developmentCourses.length ? `
+      <section class="section course-development-section">
+        <div class="section-head">
+          <h2>Курсы на стадии разработки</h2>
+          <p>Эти программы готовятся к запуску. Можно предварительно записаться прямо сейчас, и мы сообщим о старте набора.</p>
+        </div>
+        <div class="grid grid-3">${developmentCourses.map((course) => courseCard(course, { development: true })).join("")}</div>
+      </section>
+    ` : ""}
   `;
 }
 
@@ -342,8 +458,10 @@ function coursePage(id) {
           <ul class="clean-list">${course.learn.map((item) => `<li>${icon("check")} ${item}</li>`).join("")}</ul>
         </article>
         <article class="card">
-          <h2>Программа по модулям</h2>
-          ${course.modules.map((item, index) => `<div class="module"><span class="module-index">${index + 1}</span><div><h3>${item}</h3><p>Практический модуль с уроками, материалами, заданием и контрольной точкой прогресса.</p></div></div>`).join("")}
+          <h2>${course.advantages ? "Наши преимущества" : "Программа по модулям"}</h2>
+          ${course.advantages
+            ? `<ul class="clean-list">${course.advantages.map((item) => `<li>${icon("check")} ${item}</li>`).join("")}</ul>`
+            : course.modules.map((item, index) => `<div class="module"><span class="module-index">${index + 1}</span><div><h3>${item}</h3><p>Практический модуль с уроками, материалами, заданием и контрольной точкой прогресса.</p></div></div>`).join("")}
         </article>
         <article class="card">
           <h2>Формат обучения</h2>
@@ -366,13 +484,6 @@ function coursePage(id) {
         <div class="actions"><a class="btn btn-primary" href="#/contacts">${icon("send")} Записаться на курс</a></div>
       </aside>
     </section>
-  `;
-}
-
-function directionsPage() {
-  return `
-    ${pageTitle("Направления", "English, Blender и AI / NLP объединены общей логикой: практика, проверка, прогресс и результат для дальнейшего роста.")}
-    <section class="grid grid-3">${directionCards()}</section>
   `;
 }
 
@@ -409,31 +520,41 @@ function teachersPage() {
 
 function reviewsPage() {
   const reviews = [
-    { name: "Алена", course: "Разговорный английский", result: "Перешла на рабочие встречи на английском", text: "Занятия были очень прикладными: разбирали митинги, переписку и мои реальные рабочие ситуации. Стало проще говорить и задавать вопросы команде." },
-    { name: "Олег", course: "Разговорный английский", result: "Начал увереннее говорить", text: "Много практики без ощущения школьного урока. Преподаватель объяснял ошибки спокойно и помогал формулировать мысли естественнее." }
+    {
+      name: "Алена",
+      course: "Разговорный английский",
+      result: "Начала увереннее говорить",
+      text:
+        "Мне очень нравятся занятия в EduLearning. Во-первых, это невероятно тёплая и дружелюбная атмосфера: нет страха строгого преподавателя и ощущения, что ошибаться нельзя. Это помогает говорить спокойно и свободно.\n\nВо-вторых, система смены преподавателей в разные дни - гениальна. Ты не привыкаешь к одному стилю, и каждый урок проходит в новом формате.\n\nИ главное: 70% времени мы говорим на английском, но это не просто разговоры. Мы прорабатываем грамматику и произношение не в вакууме, а через живые, интересные темы - например путешествия. Вот это действительно круто и то, зачем я сюда шла 💕",
+    },
+    {
+      name: "Олег",
+      course: "Разговорный английский",
+      result: "Начал увереннее говорить",
+      text:
+        "Материал преподается на высшем уровне. Все преподаватели отзывчивые и всегда готовы помочь, подстраиваются под твой темп и не торопят если что-то не получается, а помогают разобраться и запомнить правило. Атмосфера на занятии всегда комфортная, нет неловких пауз и напряжения. Всегда есть домашнее, что тоже очень важно в изучении на мой взгляд. Очень много разговорной практики, а это как раз то, что я искал. Преподаватели профессионалы и это чувствуется еще с первого занятия. Хочется сказать спасибо за возможность так легко и интересно изучать Английский!",
+    },
   ];
 
   return `
     ${pageTitle("Отзывы студентов", "Результаты и впечатления людей, которые учились в Edu Learning.")}
-    <section class="review-summary">
-      <div class="result-stat"><strong>4.9</strong><span>средняя оценка</span></div>
-      <div class="result-stat"><strong>92%</strong><span>доходят до итогового проекта</span></div>
-      <div class="result-stat"><strong>3</strong><span>практических направления</span></div>
-      <div class="result-stat"><strong>1:1</strong><span>обратная связь наставника</span></div>
-    </section>
     <section class="section">
       <div class="grid grid-3">
-        ${reviews.map((review) => `
-          <article class="card review-card">
+        ${reviews.map((review) => {
+          const text = review.text.trim();
+          const isLong = text.length > 260;
+          return `
+          <article class="card review-card full-stars">
             <div class="review-top">
               <span class="review-avatar">${review.name[0]}</span>
               <div><h3>${review.name}</h3><span class="tag green">${review.course}</span></div>
             </div>
             <div class="review-stars" aria-label="5 из 5">${icon("star")} ${icon("star")} ${icon("star")} ${icon("star")} ${icon("star")}</div>
-            <p>${review.text}</p>
+            <p class="review-text ${isLong ? "is-collapsed" : ""}">${text.replace(/\n/g, "<br />")}</p>
             <strong class="review-result">${icon("check-circle-2")} ${review.result}</strong>
+            ${isLong ? `<button class="review-more" type="button" data-review-toggle>Читать далее</button>` : ""}
           </article>
-        `).join("")}
+        `}).join("")}
       </div>
     </section>
     <section class="section">
@@ -494,7 +615,6 @@ function render() {
 
   if (route === "courses") app.innerHTML = coursesPage();
   else if (route === "course") app.innerHTML = coursePage(id);
-  else if (route === "directions") app.innerHTML = directionsPage();
   else if (route === "teachers") app.innerHTML = teachersPage();
   else if (route === "reviews") app.innerHTML = reviewsPage();
   else if (route === "contacts") app.innerHTML = contactsPage();
@@ -523,8 +643,22 @@ document.addEventListener("click", (event) => {
     renderIcons();
   }
 
+  const paletteButton = event.target.closest("[data-palette-option]");
+  if (paletteButton) {
+    setPalette(paletteButton.dataset.paletteOption);
+  }
+
   if (event.target.closest(".main-nav a")) {
     document.querySelector("[data-nav]").classList.remove("open");
+  }
+
+  const reviewToggle = event.target.closest("[data-review-toggle]");
+  if (reviewToggle) {
+    const card = reviewToggle.closest(".review-card");
+    const text = card.querySelector(".review-text");
+    const isExpanded = text.classList.toggle("is-expanded");
+    text.classList.toggle("is-collapsed", !isExpanded);
+    reviewToggle.textContent = isExpanded ? "Скрыть" : "Читать далее";
   }
 
 });
@@ -568,4 +702,5 @@ document.addEventListener("submit", async (event) => {
 
 window.addEventListener("hashchange", render);
 setTheme(getPreferredTheme());
+setPalette(getPreferredPalette());
 render();
