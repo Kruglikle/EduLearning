@@ -411,7 +411,9 @@ input {
 .carousel-art {
   border: 1px solid rgba(var(--accent-rgb), 0.18);
   border-radius: 8px;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  box-shadow:
+    0 18px 54px rgba(var(--accent-rgb), 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
   overflow: hidden;
 }
 
@@ -600,6 +602,36 @@ input {
   line-height: 1.6;
 }
 
+.section-head.section-head-stacked {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.section-head.section-head-stacked p {
+  max-width: 900px;
+  margin: 0;
+}
+
+.section-title-block {
+  display: block;
+  max-width: 920px;
+  margin-bottom: 24px;
+}
+
+.section-title-block h2 {
+  margin: 0;
+}
+
+.section-title-block p {
+  max-width: 860px;
+  margin: 16px 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 .grid {
   display: grid;
   gap: 16px;
@@ -610,7 +642,19 @@ input {
 }
 
 .teachers-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.teacher-card {
+  grid-column: span 2;
+}
+
+.teacher-card:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+
+.teacher-card:nth-child(5) {
+  grid-column: 4 / span 2;
 }
 
 .grid-2 {
@@ -684,6 +728,18 @@ input {
   margin: 15px 0;
 }
 
+.course-card-tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -2px 0 26px;
+}
+
+.course-card-tags + h3 {
+  margin-top: 0;
+}
+
 .tag {
   display: inline-flex;
   align-items: center;
@@ -701,11 +757,6 @@ input {
   color: var(--green);
   border-color: rgba(var(--accent-rgb), 0.24);
   background: rgba(var(--accent-rgb), 0.06);
-}
-
-.tag.status-active,
-.tag.status-dev {
-  margin-left: 6px;
 }
 
 .tag.status-active {
@@ -1057,13 +1108,13 @@ textarea.input {
   min-width: 0;
   width: 100%;
   max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: clamp(11px, 0.95vw, 13px);
-  line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+  font-size: 12px;
+  line-height: 1.25;
   margin-bottom: 0;
-  padding: 10px 12px;
+  padding: 9px 12px;
 }
 
 .contact-banner {
@@ -1291,10 +1342,17 @@ textarea.input {
 }
 
 [data-theme="light"] .hero-console {
+  border-color: rgba(var(--accent-rgb), 0.12);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(239, 249, 243, 0.76)),
-    rgba(255, 255, 255, 0.82);
-  box-shadow: var(--shadow), inset 0 0 0 1px rgba(255, 255, 255, 0.62);
+    linear-gradient(145deg, rgba(var(--accent-rgb), 0.055), rgba(var(--secondary-rgb), 0.035)),
+    rgba(255, 255, 255, 0.72);
+  box-shadow:
+    0 18px 58px rgba(var(--accent-rgb), 0.09);
+}
+
+[data-theme="light"] .carousel-art {
+  border-color: rgba(var(--accent-rgb), 0.12);
+  box-shadow: 0 14px 46px rgba(var(--accent-rgb), 0.08);
 }
 
 [data-theme="light"] .metric,
@@ -1407,6 +1465,12 @@ textarea.input {
   .teachers-grid,
   .result-strip {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .teacher-card,
+  .teacher-card:nth-child(4),
+  .teacher-card:nth-child(5) {
+    grid-column: auto;
   }
 }
 
