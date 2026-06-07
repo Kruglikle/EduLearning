@@ -303,6 +303,33 @@ input {
   line-height: 1.62;
 }
 
+.hero-offer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 680px;
+  margin-top: 22px;
+}
+
+.hero-offer span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 11px;
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  border-radius: 999px;
+  color: var(--soft);
+  background: rgba(var(--accent-rgb), 0.055);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.hero-offer i {
+  width: 16px;
+  height: 16px;
+  color: var(--green);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -740,6 +767,18 @@ input {
   margin-top: 0;
 }
 
+.course-card-clickable {
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.course-card-clickable:hover,
+.course-card-clickable:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(var(--accent-rgb), 0.4);
+  box-shadow: 0 20px 58px rgba(var(--accent-rgb), 0.12);
+}
+
 .tag {
   display: inline-flex;
   align-items: center;
@@ -876,6 +915,39 @@ input {
   margin-top: 18px;
 }
 
+.course-price {
+  display: grid;
+  gap: 5px;
+  margin-top: 16px;
+  padding: 13px 14px;
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
+  border-radius: 8px;
+  background: rgba(var(--accent-rgb), 0.055);
+}
+
+.course-price strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--green);
+  font-size: 15px;
+}
+
+.course-price span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.course-price i {
+  width: 17px;
+  height: 17px;
+}
+
+.course-price-large {
+  margin-bottom: 14px;
+}
+
 .course-actions {
   display: flex;
   align-items: center;
@@ -902,6 +974,32 @@ input {
 
 .course-development-section {
   padding-top: 44px;
+}
+
+.promo-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px;
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(var(--accent-rgb), 0.12), rgba(var(--secondary-rgb), 0.06)),
+    var(--panel);
+  box-shadow: 0 18px 58px rgba(var(--accent-rgb), 0.1);
+  overflow: hidden;
+}
+
+.promo-strip h2 {
+  margin: 14px 0 10px;
+  font-size: clamp(26px, 3.2vw, 38px);
+}
+
+.promo-strip p {
+  max-width: 780px;
+  color: var(--muted);
+  line-height: 1.62;
 }
 
 .muted {
@@ -1133,7 +1231,8 @@ textarea.input {
   grid-template-rows: auto auto 168px auto auto;
   align-self: start;
   gap: 16px;
-  height: auto;
+  min-height: 430px;
+  height: 100%;
 }
 
 .review-text {
@@ -1207,6 +1306,7 @@ textarea.input {
   display: flex;
   align-items: flex-start;
   gap: 8px;
+  align-self: end;
   color: var(--soft);
   font-size: 13px;
   line-height: 1.5;
@@ -1450,6 +1550,11 @@ textarea.input {
   .lesson-layout,
   .contact-layout {
     grid-template-columns: 1fr;
+  }
+
+  .promo-strip {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .hero {

@@ -34,7 +34,7 @@ const courses = [
     level: "Beginner",
     duration: "8 недель",
     summary: "Базовый курс для тех, кто начинает изучать английский язык: чтение, разговорная речь, аудирование и грамматическая база.",
-    result: "Уверенный разговорный английский, возможность развивать и совершенствовать язык дальше.",
+    result: "Прогресс по языковым навыкам, проверенные задания и сертификат EduLearning о прохождении курса.",
     audience: "Новичкам, которые хотят уверенно стартовать без перегруза теорией.",
     learn: ["понимать короткие тексты и аудио", "вести простые диалоги", "писать короткие тексты"],
     modules: ["Start Pack", "Everyday Grammar", "Listening Lab", "Speaking Practice"],
@@ -69,7 +69,7 @@ const courses = [
     level: "Pre-Intermediate",
     duration: "7 недель",
     summary: "Больше говорения, меньше заучивания: обсуждение актуальных тем, работа с реальными ситуациями и регулярная разговорная практика.",
-    result: "Прогресс по языковым навыкам, проверенные задания и сертификат EduLearning о прохождении курса.",
+    result: "Уверенный разговорный английский, возможность развивать и совершенствовать язык дальше.",
     audience: "Тем, кто знает базу, но хочет говорить увереннее.",
     learn: ["поддерживать разговор", "формулировать мнение", "спокойной понимать речь на слух"],
     modules: ["Warm-up Dialogues", "Opinion Builder", "Real Scenarios", "Final Speaking Test"],
@@ -165,6 +165,10 @@ const app = document.querySelector("#app");
 const root = document.documentElement;
 const palettes = ["green", "orange", "blue"];
 const activeCourseIds = ["english-zero", "spoken-english", "3d-modeling", "python-zero", "nlp-basics"];
+const coursePrice = "6 400 ₽ за 8 занятий";
+const courseSchedule = "Занятия 2 раза в неделю";
+const referralPromo =
+  "В июне-июле действует акция: приведите друга и получите скидку 1 000 ₽ при оплате обучения. Количество приглашённых друзей не ограничено.";
 
 function getPreferredTheme() {
   const savedTheme = localStorage.getItem("edu-learning-theme");
@@ -245,7 +249,7 @@ function courseCard(course, options = {}) {
   const isActive = activeCourseIds.includes(course.id);
   const signupLabel = isActive ? "Записаться" : "Предзапись";
   return `
-    <article class="card">
+    <article class="card course-card-clickable" data-course-card="#/course/${course.id}" tabindex="0" role="link" aria-label="Открыть курс ${course.title}">
       <div class="course-card-tags">
         <span class="tag green">${course.direction}</span>
         <span class="tag ${isActive ? "status-active" : "status-dev"}">${isActive ? "Идёт набор" : "В разработке"}</span>
@@ -257,6 +261,10 @@ function courseCard(course, options = {}) {
       </div>
       <p>${course.summary}</p>
       ${options.development ? `<p class="course-note">Можно предварительно записаться прямо сейчас.</p>` : ""}
+      <div class="course-price">
+        <strong>${icon("credit-card")} ${coursePrice}</strong>
+        <span>${courseSchedule}</span>
+      </div>
       <div class="tag-row"><span class="tag green">${icon("target")} ${course.result}</span></div>
       <div class="course-card-footer">
         <div class="course-actions">
@@ -337,6 +345,11 @@ function homePage() {
           <a class="btn btn-primary" href="#/courses">${icon("layers")} Выбрать курс</a>
           <a class="btn btn-ghost" href="#/contacts">${icon("send")} Записаться</a>
         </div>
+        <div class="hero-offer">
+          <span>${icon("credit-card")} ${coursePrice}</span>
+          <span>${icon("calendar-days")} ${courseSchedule.toLowerCase()}</span>
+          <span>${icon("badge-percent")} Акция июня-июля: минус 1 000 ₽ за каждого приглашённого друга</span>
+        </div>
       </div>
       <div class="hero-console hero-gallery" aria-label="Карусель учебных направлений">
         <div class="carousel-track">
@@ -392,6 +405,17 @@ function homePage() {
         <article class="card"><h3>1. Выберите направление</h3><p>Подберите программу по английскому языку, искусственному интеллекту или 3D-дизайну в зависимости от ваших целей и уровня подготовки.</p></article>
         <article class="card"><h3>2. Учитесь на практике</h3><p>На занятиях вы выполняете реальные задания, работаете с профессиональными инструментами и получаете обратную связь от преподавателя.</p></article>
         <article class="card"><h3>3. Создавайте собственные проекты</h3><p>По итогам обучения у вас остаются выполненные работы: проекты, 3D-модели, программный код, исследования или языковые задания, которые можно использовать в портфолио.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="promo-strip">
+        <div>
+          <span class="tag green">${icon("badge-percent")} Акция июня-июля</span>
+          <h2>Приведи друга и получи скидку</h2>
+          <p>${referralPromo} Пригласите 6 друзей — и можно закрыть стоимость месяца обучения скидками.</p>
+        </div>
+        <a class="btn btn-primary" href="#/contacts">${icon("send")} Узнать условия</a>
       </div>
     </section>
 
@@ -467,7 +491,15 @@ function coursePage(id) {
         </article>
         <article class="card">
           <h2>Формат обучения</h2>
-          <p>Онлайн уроки, видео, презентации, материалы, домашние задания, проверка работ и зримый прогресс.</p>
+          <p>Онлайн уроки, видео, презентации, материалы, домашние задания, проверка работ и зримый прогресс. ${courseSchedule}.</p>
+        </article>
+        <article class="card">
+          <h2>Стоимость</h2>
+          <div class="course-price course-price-large">
+            <strong>${icon("credit-card")} ${coursePrice}</strong>
+            <span>${courseSchedule}</span>
+          </div>
+          <p class="course-note">${referralPromo}</p>
         </article>
         <article class="card">
           <h2>Итоговый результат</h2>
@@ -481,6 +513,8 @@ function coursePage(id) {
           <li>${icon("folder")} Направление: ${course.direction}</li>
           <li>${icon("signal")} Уровень: ${course.level}</li>
           <li>${icon("clock")} Длительность: ${course.duration}</li>
+          <li>${icon("credit-card")} Стоимость: ${coursePrice}</li>
+          <li>${icon("calendar-days")} Формат: ${courseSchedule.toLowerCase()}</li>
           <li>${icon("user-round")} Преподаватель: ${course.teacher}</li>
         </ul>
         <div class="actions"><a class="btn btn-primary" href="#/contacts">${icon("send")} Записаться на курс</a></div>
@@ -537,6 +571,34 @@ function reviewsPage() {
       text:
         "Материал преподается на высшем уровне. Все преподаватели отзывчивые и всегда готовы помочь, подстраиваются под твой темп и не торопят если что-то не получается, а помогают разобраться и запомнить правило. Атмосфера на занятии всегда комфортная, нет неловких пауз и напряжения. Всегда есть домашнее, что тоже очень важно в изучении на мой взгляд. Очень много разговорной практики, а это как раз то, что я искал. Преподаватели профессионалы и это чувствуется еще с первого занятия. Хочется сказать спасибо за возможность так легко и интересно изучать Английский!",
     },
+    {
+      name: "Дима",
+      course: "Основы NLP",
+      result: "Хочет дальше работать с программами для переводов",
+      text:
+        "Спасибо большое за знания, все было объяснено, разжевано, показано с примерами, а также мне понравилось, что после объяснения теории нас самих просили объяснить ее. Это закрепило пройденное, хотелось бы дальше работать с программами для переводов.",
+    },
+    {
+      name: "Даша",
+      course: "Основы NLP",
+      result: "Материал оказался полезным и интересным",
+      text:
+        "Очень классно, занятия пойдут на пользу, интересный материал, преподаватель супер.",
+    },
+    {
+      name: "Настя",
+      course: "Python с нуля",
+      result: "Захотелось продолжать изучать программирование",
+      text:
+        "Объяснения очень понятные и захотелось продолжать изучать программирование и дальше!!! Очень круто все было!!!",
+    },
+    {
+      name: "Саша",
+      course: "Python с нуля",
+      result: "Разобрался в программировании с нуля",
+      text:
+        "Мне очень понравились лекции и лабы. Лекции расширили понимание того, как применяется питон в лингвистике. Лабы шли понятно, медленно, что помогает с нуля разобраться в программировании.",
+    },
   ];
 
   return `
@@ -545,7 +607,7 @@ function reviewsPage() {
       <div class="grid grid-3">
         ${reviews.map((review) => {
           const text = review.text.trim();
-          const isLong = text.length > 260;
+          const isLong = text.length > 120;
           return `
           <article class="card review-card full-stars">
             <div class="review-top">
@@ -664,6 +726,18 @@ document.addEventListener("click", (event) => {
     reviewToggle.textContent = isExpanded ? "Скрыть" : "Читать далее";
   }
 
+  const courseCard = event.target.closest("[data-course-card]");
+  if (courseCard && !event.target.closest("a, button")) {
+    window.location.hash = courseCard.dataset.courseCard;
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const courseCard = event.target.closest("[data-course-card]");
+  if (!courseCard || event.target.closest("a, button")) return;
+  event.preventDefault();
+  window.location.hash = courseCard.dataset.courseCard;
 });
 
 document.addEventListener("submit", async (event) => {
