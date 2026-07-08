@@ -748,14 +748,22 @@ document.addEventListener("submit", async (event) => {
   const status = contactForm.querySelector("[data-form-status]");
   const submitButton = contactForm.querySelector('button[type="submit"]');
   const formData = new FormData(contactForm);
-  const payload = Object.fromEntries(formData.entries());
+  const payload = {
+    name: formData.get("Имя") || "",
+    contact: formData.get("Контакт") || "",
+    direction: formData.get("Направление") || "",
+    goal: formData.get("Цель") || "",
+    page: window.location.href,
+    website: formData.get("_honey") || "",
+  };
+  const leadsEndpoint = window.EDULEARNING_LEADS_ENDPOINT || "/api/leads";
 
   submitButton.disabled = true;
   status.className = "form-status";
   status.textContent = "Отправляем заявку...";
 
   try {
-    const response = await fetch("https://formsubmit.co/ajax/edulearning@yandex.ru", {
+    const response = await fetch(leadsEndpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -771,7 +779,7 @@ document.addEventListener("submit", async (event) => {
     status.textContent = "Заявка отправлена. Мы свяжемся с вами в ближайшее время.";
   } catch (error) {
     status.classList.add("error");
-    status.textContent = "Не удалось отправить заявку. Напишите нам на edulearning@yandex.ru.";
+    status.textContent = "Не удалось отправить заявку. Напишите нам в Telegram: @solovyevasn.";
   } finally {
     submitButton.disabled = false;
   }

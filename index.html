@@ -45,6 +45,9 @@
     <main id="app" class="app-shell"></main>
 
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-    <script src="app.js?v=20260607-edu-price"></script>
+    <script>
+      window.EDULEARNING_LEADS_ENDPOINT = window.EDULEARNING_LEADS_ENDPOINT || "/api/leads";
+    </script>
+    <script src="app.js?v=20260708-telegram-leads"></script>
   </body>
 </html>
