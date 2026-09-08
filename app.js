@@ -621,7 +621,6 @@ function coursePage(id) {
   const course = courses.find((item) => item.id === id) || courses[0];
   return `
     ${pageTitle(course.title, course.summary)}
-    ${course.filter === "English" ? englishGroupSchedule() : ""}
     <section class="split">
       <div class="grid">
         <article class="card">
