@@ -909,7 +909,7 @@ function contactsPage() {
         </form>
       </article>
       <aside class="grid">
-        <a class="card contact-card" href="https://t.me/solovyevasn" target="_blank" rel="noreferrer"><span class="icon-chip">${icon("send")}</span><h3>Telegram</h3><p>@solovyevasn</p></a>
+        <a class="card contact-card" href="https://t.me/EdLearning_bot" target="_blank" rel="noreferrer"><span class="icon-chip">${icon("send")}</span><h3>Telegram</h3><p>@EdLearning_bot</p></a>
         <a class="card contact-card" href="mailto:edulearning@yandex.ru"><span class="icon-chip">${icon("mail")}</span><h3>Email</h3><p>edulearning@yandex.ru</p></a>
         <article class="card"><span class="icon-chip">${icon("clock-3")}</span><h3>Время ответа</h3><p>Обычно отвечаем в течение рабочего дня.</p></article>
       </aside>
@@ -1035,7 +1035,7 @@ document.addEventListener("submit", async (event) => {
     status.textContent = "Заявка отправлена. Мы свяжемся с вами в ближайшее время.";
   } catch (error) {
     status.classList.add("error");
-    status.textContent = "Не удалось отправить заявку. Напишите нам в Telegram: @solovyevasn.";
+    status.textContent = "Не удалось отправить заявку. Напишите нам в Telegram: @EdLearning_bot.";
   } finally {
     submitButton.disabled = false;
   }
