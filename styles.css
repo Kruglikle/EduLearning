@@ -1088,6 +1088,10 @@ input {
   cursor: pointer;
 }
 
+.course-card-clickable > p:first-of-type {
+  min-height: calc(1.62em * 4);
+}
+
 .course-card-clickable .tag-row .tag {
   max-width: 100%;
   white-space: normal;
@@ -1923,6 +1927,10 @@ textarea.input {
 }
 
 @media (max-width: 720px) {
+  .course-card-clickable > p:first-of-type {
+    min-height: 0;
+  }
+
   .site-header {
     width: min(1180px, calc(100% - 20px));
     margin-top: 10px;
