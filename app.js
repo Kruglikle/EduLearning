@@ -165,10 +165,19 @@ const app = document.querySelector("#app");
 const root = document.documentElement;
 const palettes = ["green", "orange", "blue"];
 const activeCourseIds = ["english-zero", "spoken-english", "3d-modeling", "python-zero", "nlp-basics"];
-const coursePrice = "6 400 ₽ за 8 занятий";
-const courseSchedule = "Занятия 2 раза в неделю";
+// Два доступных темпа обучения: стоимость пропорциональна числу занятий в пакете.
+const coursePlans = [
+  { lessons: 8, lessonsPerWeek: 2, price: "6 400 ₽" },
+  { lessons: 12, lessonsPerWeek: 3, price: "9 600 ₽" },
+];
+const coursePriceSummary = "6 400 ₽ или 9 600 ₽";
+const TEACHER_DIALOG_ENTER_DURATION_MS = 240;
+const TEACHER_DIALOG_EXIT_DURATION_MS = 160;
+const SPOTLIGHT_DIAMETER_PX = 340;
+const SPOTLIGHT_SURFACE_SELECTOR = ".card, .teacher-card, .hero-offer > span, .hero-console, .promo-strip";
+const courseScheduleSummary = "2 или 3 раза в неделю";
 const referralPromo =
-  "В июне-июле действует акция: приведите друга и получите скидку 1 000 ₽ при оплате обучения. Количество приглашённых друзей не ограничено.";
+  "Осенью действует акция: приведите друга и получите скидку 1 000 ₽ при оплате обучения. Количество приглашённых друзей не ограничено.";
 const teachers = [
   {
     name: "Снежана Соловьева",
@@ -225,9 +234,20 @@ const teachers = [
     text: "Помогает развивать языковые навыки через практику, понятные объяснения и спокойную рабочую атмосферу.",
     focus: ["английский язык", "практические задания", "поддержка на занятиях"],
   },
+  {
+    name: "Дарья Смирнова",
+    shortName: "Дарья",
+    initials: "ДС",
+    role: "Преподаватель английского языка",
+    direction: "Английский язык",
+    icon: "languages",
+    image: "teachers-photo/dasha2-transparent.png",
+    text: "Помогает уверенно использовать английский в учёбе, работе и повседневном общении через живую практику и понятные объяснения.",
+    focus: ["разговорная практика", "современная лексика", "английский для учёбы и работы"],
+  },
 ];
 
-let activeTeacherIndex = 0;
+
 
 function getPreferredTheme() {
   const savedTheme = localStorage.getItem("edu-learning-theme");
@@ -304,6 +324,23 @@ function orderedCourses(list = courses) {
   });
 }
 
+function coursePricing(className = "") {
+  return `
+    <div class="course-pricing${className ? ` ${className}` : ""}" aria-label="Варианты стоимости обучения">
+      ${coursePlans
+        .map(
+          (plan) => `
+            <div class="course-plan">
+              <span>${icon("calendar-days")} ${plan.lessonsPerWeek} раза в неделю <small>${plan.lessons} занятий</small></span>
+              <strong>${plan.price}</strong>
+            </div>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+}
+
 function courseCard(course, options = {}) {
   const isActive = activeCourseIds.includes(course.id);
   const signupLabel = isActive ? "Записаться" : "Предзапись";
@@ -320,10 +357,7 @@ function courseCard(course, options = {}) {
       </div>
       <p>${course.summary}</p>
       ${options.development ? `<p class="course-note">Можно предварительно записаться прямо сейчас.</p>` : ""}
-      <div class="course-price">
-        <strong>${icon("credit-card")} ${coursePrice}</strong>
-        <span>${courseSchedule}</span>
-      </div>
+      ${coursePricing("course-pricing-compact")}
       <div class="tag-row"><span class="tag green">${icon("target")} ${course.result}</span></div>
       <div class="course-card-footer">
         <div class="course-actions">
@@ -332,6 +366,64 @@ function courseCard(course, options = {}) {
         </div>
       </div>
     </article>
+  `;
+}
+
+function heroArt(kind) {
+  const art = {
+    english: {
+      title: "Language studio",
+      icon: "Aa",
+      left: "Speaking",
+      right: "Listening",
+      accent: "M120 440c150-50 250-40 370 0s210 45 330-20",
+    },
+    design: {
+      title: "3D design lab",
+      icon: "3D",
+      left: "Modeling",
+      right: "Render",
+      accent: "M260 190 480 90 700 190 700 410 480 525 260 410z",
+    },
+    ai: {
+      title: "AI workshop",
+      icon: "AI",
+      left: "Python",
+      right: "NLP",
+      accent: "M210 250 350 170 500 260 650 160 760 280M210 390 350 470 500 390 650 480 760 370",
+    },
+  }[kind];
+
+  return `
+    <div class="carousel-art">
+      <svg viewBox="0 0 960 640" role="img" aria-label="${art.title}">
+        <defs>
+          <linearGradient id="art-${kind}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="var(--green)" />
+            <stop offset=".55" stop-color="var(--cyan)" />
+            <stop offset="1" stop-color="var(--violet)" />
+          </linearGradient>
+          <filter id="blur-${kind}" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="22" />
+          </filter>
+        </defs>
+        <rect width="960" height="640" rx="36" fill="#071019" />
+        <circle cx="250" cy="170" r="132" fill="var(--green)" opacity=".16" filter="url(#blur-${kind})" />
+        <circle cx="740" cy="150" r="118" fill="var(--cyan)" opacity=".18" filter="url(#blur-${kind})" />
+        <g opacity=".26" stroke="var(--green)" stroke-width="1">
+          <path d="M0 500h960M0 430h960M0 360h960M0 290h960M120 0v640M240 0v640M360 0v640M480 0v640M600 0v640M720 0v640M840 0v640" />
+        </g>
+        <rect x="105" y="88" width="750" height="430" rx="30" fill="var(--green)" opacity=".055" stroke="url(#art-${kind})" stroke-opacity=".5" />
+        <rect x="150" y="145" width="230" height="138" rx="18" fill="#06120b" opacity=".78" stroke="var(--cyan)" stroke-opacity=".65" />
+        <rect x="580" y="145" width="230" height="138" rx="18" fill="#06120b" opacity=".72" stroke="var(--green)" stroke-opacity=".65" />
+        <path d="M185 195h130M185 230h85M615 195h130M615 230h95" stroke="url(#art-${kind})" stroke-width="11" stroke-linecap="round" opacity=".78" />
+        <path d="${art.accent}" fill="none" stroke="url(#art-${kind})" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity=".82" />
+        <circle cx="480" cy="320" r="96" fill="#06120b" opacity=".88" stroke="url(#art-${kind})" stroke-width="8" />
+        <text x="480" y="342" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="800" fill="var(--green)">${art.icon}</text>
+        <text x="265" y="350" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="var(--cyan)">${art.left}</text>
+        <text x="695" y="350" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="var(--green)">${art.right}</text>
+      </svg>
+    </div>
   `;
 }
 
@@ -348,28 +440,22 @@ function homePage() {
           <a class="btn btn-ghost" href="#/contacts">${icon("send")} Записаться</a>
         </div>
         <div class="hero-offer">
-          <span>${icon("credit-card")} ${coursePrice}</span>
-          <span>${icon("calendar-days")} ${courseSchedule.toLowerCase()}</span>
-          <span>${icon("badge-percent")} Акция июня-июля: минус 1 000 ₽ за каждого приглашённого друга</span>
+          <span>${icon("languages")} <strong>Бесплатно определим ваш уровень английского</strong></span>
+          <span>${icon("calendar-days")} Индивидуальные и групповые занятия 2–3 раза в неделю</span>
+          <span>${icon("credit-card")} <strong>от 800 ₽ за занятие</strong></span>
+          <span>${icon("calendar")} Абонемент на месяц — <strong>от 6 400 ₽</strong></span>
         </div>
       </div>
-      <div class="hero-media" aria-label="Преподаватели и форматы Edu Learning">
-        <div class="hero-photo hero-photo-main">
-          <img src="teachers-photo/snezhana.jpg" alt="Преподаватель Edu Learning" />
-          <span>English</span>
+      <div class="hero-console hero-gallery" aria-label="Карусель учебных направлений">
+        <div class="carousel-track">
+          <figure class="carousel-slide">${heroArt("english")}</figure>
+          <figure class="carousel-slide">${heroArt("design")}</figure>
+          <figure class="carousel-slide">${heroArt("ai")}</figure>
+          <figure class="carousel-slide" aria-hidden="true">${heroArt("english")}</figure>
+          <figure class="carousel-slide" aria-hidden="true">${heroArt("design")}</figure>
+          <figure class="carousel-slide" aria-hidden="true">${heroArt("ai")}</figure>
         </div>
-        <div class="hero-photo hero-photo-side">
-          <img src="teachers-photo/polina.jpg" alt="Преподаватель 3D-дизайна Edu Learning" />
-          <span>3D-дизайн</span>
-        </div>
-        <div class="hero-proof">
-          <strong>3 направления</strong>
-          <span>английский, Blender, AI / NLP / Python</span>
-        </div>
-        <div class="hero-proof hero-proof-secondary">
-          <strong>2 раза в неделю</strong>
-          <span>практика, обратная связь и проекты</span>
-        </div>
+        <div class="carousel-dots" aria-hidden="true"><span></span><span></span><span></span></div>
       </div>
     </section>
 
@@ -408,7 +494,7 @@ function homePage() {
     <section class="section">
       <div class="promo-strip">
         <div>
-          <span class="tag green">${icon("badge-percent")} Акция июня-июля</span>
+          <span class="tag green">${icon("badge-percent")} Осенняя акция</span>
           <h2>Приведи друга и получи скидку</h2>
           <p>${referralPromo} Пригласите 6 друзей — и можно закрыть стоимость месяца обучения скидками.</p>
         </div>
@@ -488,14 +574,11 @@ function coursePage(id) {
         </article>
         <article class="card">
           <h2>Формат обучения</h2>
-          <p>Онлайн уроки, видео, презентации, материалы, домашние задания, проверка работ и зримый прогресс. ${courseSchedule}.</p>
+          <p>Онлайн-уроки, видео, презентации, материалы, домашние задания, проверка работ и зримый прогресс. Выберите комфортный темп: 2 или 3 занятия в неделю.</p>
         </article>
         <article class="card">
           <h2>Стоимость</h2>
-          <div class="course-price course-price-large">
-            <strong>${icon("credit-card")} ${coursePrice}</strong>
-            <span>${courseSchedule}</span>
-          </div>
+          ${coursePricing("course-pricing-large")}
           <p class="course-note">${referralPromo}</p>
         </article>
         <article class="card">
@@ -510,8 +593,8 @@ function coursePage(id) {
           <li>${icon("folder")} Направление: ${course.direction}</li>
           <li>${icon("signal")} Уровень: ${course.level}</li>
           <li>${icon("clock")} Длительность: ${course.duration}</li>
-          <li>${icon("credit-card")} Стоимость: ${coursePrice}</li>
-          <li>${icon("calendar-days")} Формат: ${courseSchedule.toLowerCase()}</li>
+          <li>${icon("credit-card")} Стоимость: ${coursePriceSummary}</li>
+          <li>${icon("calendar-days")} Формат: ${courseScheduleSummary}</li>
           <li>${icon("user-round")} Преподаватель: ${course.teacher}</li>
         </ul>
         <div class="actions"><a class="btn btn-primary" href="#/contacts">${icon("send")} Записаться на курс</a></div>
@@ -520,12 +603,11 @@ function coursePage(id) {
   `;
 }
 
-function teacherProfile(teacher, index) {
+function teacherProfile(teacher) {
   return `
     <div class="teacher-copy">
       <span class="eyebrow teacher-direction">${icon(teacher.icon)} ${teacher.direction}</span>
-      <p class="teacher-count">${String(index + 1).padStart(2, "0")} / ${String(teachers.length).padStart(2, "0")}</p>
-      <h2>${teacher.name}</h2>
+      <h2 id="teacher-dialog-title">${teacher.name}</h2>
       <p class="teacher-role">${teacher.role}</p>
       <p class="teacher-description">${teacher.text}</p>
       <div class="teacher-focus" aria-label="Основные направления работы">
@@ -544,44 +626,25 @@ function teacherProfile(teacher, index) {
 }
 
 function teachersPage() {
-  const activeTeacher = teachers[activeTeacherIndex];
-
   return `
-    ${pageTitle("Преподаватели", "Познакомьтесь с командой, которая помогает осваивать английский язык, 3D-дизайн и программирование через практику.")}
-    <section class="teacher-showcase" aria-label="Команда Edu Learning">
-      <div class="teacher-selector" role="tablist" aria-label="Выберите преподавателя">
-        ${teachers.map((teacher, index) => {
-          const isActive = index === activeTeacherIndex;
-          return `
-            <button
-              class="teacher-tab${isActive ? " active" : ""}"
-              id="teacher-tab-${index}"
-              type="button"
-              role="tab"
-              aria-selected="${isActive}"
-              aria-controls="teacher-profile-panel"
-              tabindex="${isActive ? "0" : "-1"}"
-              data-teacher-index="${index}"
-            >
-              <span class="teacher-tab-avatar" aria-hidden="true">${teacher.initials}</span>
-              <span class="teacher-tab-copy">
-                <strong>${teacher.shortName}</strong>
-                <small>${teacher.direction}</small>
-              </span>
-              ${icon("arrow-right")}
-            </button>
-          `;
-        }).join("")}
-      </div>
-      <article
-        class="teacher-profile"
-        id="teacher-profile-panel"
-        role="tabpanel"
-        aria-labelledby="teacher-tab-${activeTeacherIndex}"
-      >
-        ${teacherProfile(activeTeacher, activeTeacherIndex)}
-      </article>
+    ${pageTitle("Преподаватели", "Познакомьтесь со всей командой. Выберите преподавателя, чтобы узнать о его подходе и направлениях работы.")}
+    <section class="teachers-grid" aria-label="Команда Edu Learning">
+      ${teachers.map((teacher, index) => `
+        <button class="teacher-card" type="button" data-teacher-index="${index}" aria-haspopup="dialog" aria-controls="teacher-dialog">
+          <span class="teacher-card-photo"><img src="${teacher.image}" alt="" loading="lazy" decoding="async" /></span>
+          <span class="teacher-card-body">
+            <span class="teacher-card-direction">${teacher.direction}</span>
+            <strong>${teacher.name}</strong>
+            <span class="teacher-card-role">${teacher.role}</span>
+            <span class="teacher-card-link">О преподавателе ${icon("arrow-up-right")}</span>
+          </span>
+        </button>
+      `).join("")}
     </section>
+    <dialog class="teacher-dialog" id="teacher-dialog" aria-labelledby="teacher-dialog-title">
+      <button class="teacher-dialog-close" type="button" aria-label="Закрыть">${icon("x")}</button>
+      <div class="teacher-profile" id="teacher-profile-panel"></div>
+    </dialog>
     <section class="section">
       <div class="card contact-banner">
         <div><h2>Найдем курс под вашу цель</h2><p>Оставьте заявку, и мы предложим курс, формат и специалиста для старта.</p></div>
@@ -591,23 +654,91 @@ function teachersPage() {
   `;
 }
 
-function selectTeacher(index) {
-  if (!Number.isInteger(index) || !teachers[index]) return;
-  activeTeacherIndex = index;
+function closeTeacherDialog(dialog, animate = true) {
+  if (!dialog.open) return;
+  if (!animate || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    dialog.close();
+    return;
+  }
 
-  document.querySelectorAll("[data-teacher-index]").forEach((button) => {
-    const isActive = Number(button.dataset.teacherIndex) === index;
-    button.classList.toggle("active", isActive);
-    button.setAttribute("aria-selected", String(isActive));
-    button.tabIndex = isActive ? 0 : -1;
-  });
-
-  const profile = document.querySelector("#teacher-profile-panel");
-  if (!profile) return;
-  profile.setAttribute("aria-labelledby", `teacher-tab-${index}`);
-  profile.innerHTML = teacherProfile(teachers[index], index);
-  renderIcons();
+  const closingAnimation = dialog.animate(
+    [
+      { opacity: 1, transform: "translateY(0) scale(1)" },
+      { opacity: 0, transform: "translateY(8px) scale(0.985)" },
+    ],
+    {
+      duration: TEACHER_DIALOG_EXIT_DURATION_MS,
+      easing: "cubic-bezier(0.4, 0, 1, 1)",
+    },
+  );
+  closingAnimation.finished.then(() => dialog.close()).catch(() => dialog.close());
 }
+
+function selectTeacher(index, animate = true) {
+  if (!Number.isInteger(index) || !teachers[index]) return;
+  const dialog = document.querySelector("#teacher-dialog");
+  if (!dialog) return;
+  dialog.querySelector("#teacher-profile-panel").innerHTML = teacherProfile(teachers[index]);
+  renderIcons();
+  // Native modal semantics keep keyboard focus inside and restore it on close.
+  dialog.showModal();
+  if (animate && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    dialog.animate(
+      [
+        { opacity: 0, transform: "translateY(14px) scale(0.975)" },
+        { opacity: 1, transform: "translateY(0) scale(1)" },
+      ],
+      {
+        duration: TEACHER_DIALOG_ENTER_DURATION_MS,
+        easing: "cubic-bezier(0.23, 1, 0.32, 1)",
+      },
+    );
+  }
+  dialog.querySelector(".teacher-dialog-close").onclick = (event) => closeTeacherDialog(dialog, event.detail !== 0);
+  dialog.oncancel = (event) => {
+    event.preventDefault();
+    closeTeacherDialog(dialog, false);
+  };
+  dialog.onclick = (event) => {
+    if (event.target !== dialog) return;
+    const bounds = dialog.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right ||
+        event.clientY < bounds.top || event.clientY > bounds.bottom) closeTeacherDialog(dialog);
+  };
+}
+
+let activeSpotlightSurface = null;
+
+document.addEventListener("pointermove", (event) => {
+  if (event.pointerType !== "mouse" || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  const surface = event.target.closest(SPOTLIGHT_SURFACE_SELECTOR);
+
+  if (activeSpotlightSurface && activeSpotlightSurface !== surface) {
+    activeSpotlightSurface.classList.remove("spotlight-active");
+  }
+  activeSpotlightSurface = surface;
+  if (!surface) return;
+
+  let spotlight = surface.querySelector(":scope > .cursor-spotlight");
+  if (!spotlight) {
+    spotlight = document.createElement("span");
+    spotlight.className = "cursor-spotlight";
+    spotlight.setAttribute("aria-hidden", "true");
+    surface.append(spotlight);
+  }
+
+  const bounds = surface.getBoundingClientRect();
+  const offset = SPOTLIGHT_DIAMETER_PX / 2;
+  spotlight.style.transform = `translate3d(${event.clientX - bounds.left - offset}px, ${event.clientY - bounds.top - offset}px, 0)`;
+  surface.classList.add("spotlight-active");
+});
+
+document.addEventListener("pointerout", (event) => {
+  const surface = event.target.closest(SPOTLIGHT_SURFACE_SELECTOR);
+  if (!surface || (event.relatedTarget instanceof Node && surface.contains(event.relatedTarget))) return;
+  surface.classList.remove("spotlight-active");
+  if (activeSpotlightSurface === surface) activeSpotlightSurface = null;
+});
 
 function reviewsPage() {
   const reviews = [
@@ -739,6 +870,7 @@ function render() {
   else if (route === "contacts") app.innerHTML = contactsPage();
   else app.innerHTML = homePage();
 
+  app.dataset.route = route || "home";
   setActiveNav(route || "");
   renderIcons();
   window.scrollTo({ top: 0, behavior: "instant" });
@@ -769,7 +901,7 @@ document.addEventListener("click", (event) => {
 
   const teacherButton = event.target.closest("[data-teacher-index]");
   if (teacherButton) {
-    selectTeacher(Number(teacherButton.dataset.teacherIndex));
+    selectTeacher(Number(teacherButton.dataset.teacherIndex), event.detail !== 0);
   }
 
   if (event.target.closest(".main-nav a")) {
@@ -792,20 +924,6 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
-  const teacherButton = event.target.closest("[data-teacher-index]");
-  if (teacherButton && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) {
-    event.preventDefault();
-    const currentIndex = Number(teacherButton.dataset.teacherIndex);
-    const previousKeys = ["ArrowLeft", "ArrowUp"];
-    let nextIndex = previousKeys.includes(event.key) ? currentIndex - 1 : currentIndex + 1;
-    if (event.key === "Home") nextIndex = 0;
-    if (event.key === "End") nextIndex = teachers.length - 1;
-    nextIndex = (nextIndex + teachers.length) % teachers.length;
-    selectTeacher(nextIndex);
-    document.querySelector(`[data-teacher-index="${nextIndex}"]`)?.focus();
-    return;
-  }
-
   if (event.key !== "Enter" && event.key !== " ") return;
   const courseCard = event.target.closest("[data-course-card]");
   if (!courseCard || event.target.closest("a, button")) return;
