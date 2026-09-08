@@ -353,6 +353,97 @@ input {
   color: var(--green);
 }
 
+.schedule-strip {
+  position: relative;
+  padding: 28px;
+  border: 1px solid rgba(var(--accent-rgb), 0.24);
+  border-radius: 12px;
+  background: var(--panel);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+}
+
+.schedule-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 22px;
+}
+
+.schedule-intro .eyebrow {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.schedule-intro h2 {
+  margin: 0;
+  font-size: clamp(26px, 3.4vw, 38px);
+  line-height: 1.12;
+}
+
+.schedule-intro p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.schedule-slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.schedule-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 0;
+  padding: 17px 18px;
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  border-radius: 8px;
+  background: rgba(var(--accent-rgb), 0.07);
+  overflow: hidden;
+  transition: transform 150ms var(--ease-out), border-color 150ms ease, background 150ms ease;
+}
+
+.schedule-slot span {
+  min-width: 0;
+  color: var(--soft);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.schedule-slot time {
+  flex: 0 0 auto;
+  color: var(--green);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.schedule-note {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 18px 0 0;
+  color: var(--soft);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.schedule-note svg {
+  flex: 0 0 auto;
+  width: 19px;
+  height: 19px;
+  color: var(--green);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -1998,7 +2089,9 @@ body:has(.teacher-dialog[open]) { overflow: hidden; }
   .teacher-card,
   .hero-offer > span,
   .hero-console,
-  .promo-strip {
+  .promo-strip,
+  .schedule-strip,
+  .schedule-slot {
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -2007,7 +2100,9 @@ body:has(.teacher-dialog[open]) { overflow: hidden; }
   .teacher-card > *:not(.cursor-spotlight),
   .hero-offer > span > *:not(.cursor-spotlight),
   .hero-console > *:not(.cursor-spotlight),
-  .promo-strip > *:not(.cursor-spotlight) {
+  .promo-strip > *:not(.cursor-spotlight),
+  .schedule-strip > *:not(.cursor-spotlight),
+  .schedule-slot > *:not(.cursor-spotlight) {
     position: relative;
     z-index: 1;
   }
@@ -2021,6 +2116,12 @@ body:has(.teacher-dialog[open]) { overflow: hidden; }
 
   .app-shell[data-route="home"] .card:hover {
     transform: translateY(-3px);
+  }
+
+  .schedule-slot:hover {
+    transform: translateY(-3px);
+    border-color: rgba(var(--accent-rgb), 0.5);
+    background: rgba(var(--accent-rgb), 0.1);
   }
 
   .cursor-spotlight {
@@ -2043,6 +2144,11 @@ body:has(.teacher-dialog[open]) { overflow: hidden; }
   }
 }
 @media (max-width: 1000px) { .teachers-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .schedule-strip { padding: 22px; }
+  .schedule-intro { align-items: flex-start; flex-direction: column; gap: 16px; }
+  .schedule-slots { grid-template-columns: 1fr; }
+}
 @media (max-width: 600px) {
   .teachers-grid { grid-template-columns: 1fr; gap: 20px; }
   .teacher-dialog .teacher-profile { display: flex; flex-direction: column-reverse; }

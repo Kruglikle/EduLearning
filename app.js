@@ -174,7 +174,7 @@ const coursePriceSummary = "6 400 ₽ или 9 600 ₽";
 const TEACHER_DIALOG_ENTER_DURATION_MS = 240;
 const TEACHER_DIALOG_EXIT_DURATION_MS = 160;
 const SPOTLIGHT_DIAMETER_PX = 340;
-const SPOTLIGHT_SURFACE_SELECTOR = ".card, .teacher-card, .hero-offer > span, .hero-console, .promo-strip";
+const SPOTLIGHT_SURFACE_SELECTOR = ".card, .teacher-card, .hero-offer > span, .hero-console, .promo-strip, .schedule-strip, .schedule-slot";
 const courseScheduleSummary = "2 или 3 раза в неделю";
 const referralPromo =
   "Осенью действует акция: приведите друга и получите скидку 1 000 ₽ при оплате обучения. Количество приглашённых друзей не ограничено.";
@@ -457,6 +457,31 @@ function homePage() {
         </div>
         <div class="carousel-dots" aria-hidden="true"><span></span><span></span><span></span></div>
       </div>
+    </section>
+
+    <section class="schedule-strip" aria-labelledby="group-schedule-title">
+      <div class="schedule-intro">
+        <span class="eyebrow">${icon("clock-3")} Актуальное расписание</span>
+        <div>
+          <h2 id="group-schedule-title">Групповые занятия в удобное время</h2>
+          <p>Выберите готовый слот и присоединяйтесь к группе.</p>
+        </div>
+      </div>
+      <div class="schedule-slots">
+        <article class="schedule-slot">
+          <span>Понедельник + Четверг</span>
+          <time datetime="10:00">10:00</time>
+        </article>
+        <article class="schedule-slot">
+          <span>Вторник + Пятница</span>
+          <time datetime="22:00">22:00</time>
+        </article>
+        <article class="schedule-slot">
+          <span>Понедельник + Среда + Пятница</span>
+          <time datetime="00:30">00:30</time>
+        </article>
+      </div>
+      <p class="schedule-note">${icon("user-round")} Не подходит время? Проведём занятия индивидуально — стоимость останется прежней.</p>
     </section>
 
     <section class="section" id="directions">
