@@ -355,6 +355,8 @@ input {
 
 .schedule-strip {
   position: relative;
+  width: 100%;
+  min-width: 0;
   padding: 28px;
   border: 1px solid rgba(var(--accent-rgb), 0.24);
   border-radius: 12px;
@@ -369,6 +371,10 @@ input {
   justify-content: space-between;
   gap: 28px;
   margin-bottom: 22px;
+}
+
+.schedule-intro > div {
+  min-width: 0;
 }
 
 .schedule-intro .eyebrow {
@@ -386,6 +392,19 @@ input {
   margin: 8px 0 0;
   color: var(--muted);
   line-height: 1.5;
+}
+
+.schedule-teacher {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.schedule-teacher svg {
+  width: 18px;
+  height: 18px;
+  color: var(--green);
 }
 
 .schedule-slots {
@@ -418,6 +437,18 @@ input {
   overflow-wrap: anywhere;
 }
 
+.schedule-slot-copy {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.schedule-slot-copy strong {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.3;
+}
+
 .schedule-slot time {
   flex: 0 0 auto;
   color: var(--green);
@@ -442,6 +473,14 @@ input {
   width: 19px;
   height: 19px;
   color: var(--green);
+}
+
+.filters + .schedule-strip {
+  margin-bottom: 28px;
+}
+
+.schedule-strip + .split {
+  margin-top: 32px;
 }
 
 .actions {
@@ -2148,6 +2187,8 @@ body:has(.teacher-dialog[open]) { overflow: hidden; }
   .schedule-strip { padding: 22px; }
   .schedule-intro { align-items: flex-start; flex-direction: column; gap: 16px; }
   .schedule-slots { grid-template-columns: 1fr; }
+  .schedule-slot { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+  .schedule-slot time { font-size: 21px; }
 }
 @media (max-width: 600px) {
   .teachers-grid { grid-template-columns: 1fr; gap: 20px; }

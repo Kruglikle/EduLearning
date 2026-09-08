@@ -427,6 +427,44 @@ function heroArt(kind) {
   `;
 }
 
+function englishGroupSchedule() {
+  return `
+    <section class="schedule-strip" aria-labelledby="group-schedule-title">
+      <div class="schedule-intro">
+        <span class="eyebrow">${icon("clock-3")} Английский язык</span>
+        <div>
+          <h2 id="group-schedule-title">Расписание групп</h2>
+          <p class="schedule-teacher">${icon("user-round")} Преподаватель — <strong>Кристина Ефремова</strong></p>
+        </div>
+      </div>
+      <div class="schedule-slots">
+        <article class="schedule-slot">
+          <div class="schedule-slot-copy">
+            <strong>Разговорный английский</strong>
+            <span>Понедельник + Четверг</span>
+          </div>
+          <time datetime="10:00">10:00</time>
+        </article>
+        <article class="schedule-slot">
+          <div class="schedule-slot-copy">
+            <strong>Начальный английский</strong>
+            <span>Вторник + Пятница</span>
+          </div>
+          <time datetime="22:00">22:00</time>
+        </article>
+        <article class="schedule-slot">
+          <div class="schedule-slot-copy">
+            <strong>Подготовка к экзаменам</strong>
+            <span>Понедельник + Среда + Пятница</span>
+          </div>
+          <time datetime="00:30">00:30</time>
+        </article>
+      </div>
+      <p class="schedule-note">${icon("sparkles")} Не подходит время? Проведём занятия индивидуально — стоимость останется прежней.</p>
+    </section>
+  `;
+}
+
 function homePage() {
   return `
     <section class="hero">
@@ -457,31 +495,6 @@ function homePage() {
         </div>
         <div class="carousel-dots" aria-hidden="true"><span></span><span></span><span></span></div>
       </div>
-    </section>
-
-    <section class="schedule-strip" aria-labelledby="group-schedule-title">
-      <div class="schedule-intro">
-        <span class="eyebrow">${icon("clock-3")} Актуальное расписание</span>
-        <div>
-          <h2 id="group-schedule-title">Групповые занятия в удобное время</h2>
-          <p>Выберите готовый слот и присоединяйтесь к группе.</p>
-        </div>
-      </div>
-      <div class="schedule-slots">
-        <article class="schedule-slot">
-          <span>Понедельник + Четверг</span>
-          <time datetime="10:00">10:00</time>
-        </article>
-        <article class="schedule-slot">
-          <span>Вторник + Пятница</span>
-          <time datetime="22:00">22:00</time>
-        </article>
-        <article class="schedule-slot">
-          <span>Понедельник + Среда + Пятница</span>
-          <time datetime="00:30">00:30</time>
-        </article>
-      </div>
-      <p class="schedule-note">${icon("user-round")} Не подходит время? Проведём занятия индивидуально — стоимость останется прежней.</p>
     </section>
 
     <section class="section" id="directions">
@@ -564,6 +577,7 @@ function coursesPage(activeFilter = "Все") {
         .map((filter) => `<button class="filter-btn ${filter === activeFilter ? "active" : ""}" data-filter="${filter}">${filter}</button>`)
         .join("")}
     </div>
+    ${activeFilter === "Все" || activeFilter === "English" ? englishGroupSchedule() : ""}
     ${activeCourses.length ? `<section class="grid grid-3">${activeCourses.map(courseCard).join("")}</section>` : ""}
     ${developmentCourses.length ? `
       <section class="section course-development-section">
@@ -581,6 +595,7 @@ function coursePage(id) {
   const course = courses.find((item) => item.id === id) || courses[0];
   return `
     ${pageTitle(course.title, course.summary)}
+    ${course.filter === "English" ? englishGroupSchedule() : ""}
     <section class="split">
       <div class="grid">
         <article class="card">
