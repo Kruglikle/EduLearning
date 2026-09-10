@@ -4,6 +4,7 @@ const directions = [
     title: "Английский язык",
     icon: "languages",
     color: "green",
+    filter: "English",
     description:
       "Курсы для развития всех видов речевой деятельности: speaking, writing, reading и listening. Практика, проверка заданий, прогресс по навыкам и кейсы для создания языкового портфолио.",
   },
@@ -12,6 +13,7 @@ const directions = [
     title: "Blender и 3D-дизайн",
     icon: "box",
     color: "cyan",
+    filter: "Blender",
     description:
       "Курсы по моделированию, материалам, свету, рендеру и анимации. После прохождения курса — готовые 3D-проекты для портфолио.",
   },
@@ -20,6 +22,7 @@ const directions = [
     title: "AI / NLP / Python",
     icon: "brain-circuit",
     color: "violet",
+    filter: "AI / NLP",
     description:
       "Курсы по Python, анализу текстов, нейросетям и AI-инструментам. После прохождения курса — GitHub-портфолио, мини-проекты и кейсы для резюме.",
   },
@@ -328,11 +331,11 @@ function directionCards() {
   return directions
     .map(
       (item) => `
-        <article class="card">
+        <a class="card direction-card" href="#/courses/${encodeURIComponent(item.filter)}" aria-label="Посмотреть курсы: ${item.title}">
           <span class="icon-chip">${icon(item.icon)}</span>
           <h3>${item.title}</h3>
           <p>${item.description}</p>
-        </article>
+        </a>
       `
     )
     .join("");
@@ -459,31 +462,16 @@ function englishGroupSchedule() {
       <div class="schedule-intro">
         <span class="eyebrow">${icon("clock-3")} Английский язык</span>
         <div>
-          <h2 id="group-schedule-title">Расписание групп</h2>
+          <h2 id="group-schedule-title">Набор в группу</h2>
           <p class="schedule-teacher">${icon("user-round")} Преподаватель — <strong>Кристина Ефремова</strong></p>
         </div>
       </div>
-      <div class="schedule-slots">
+      <div class="schedule-slots single-slot">
         <article class="schedule-slot">
           <div class="schedule-slot-copy">
-            <strong>Разговорный английский</strong>
-            <span>Понедельник + Четверг</span>
+            <strong>Среда + Пятница</strong>
           </div>
-          <time datetime="10:00">10:00</time>
-        </article>
-        <article class="schedule-slot">
-          <div class="schedule-slot-copy">
-            <strong>Начальный английский</strong>
-            <span>Вторник + Пятница</span>
-          </div>
-          <time datetime="22:00">22:00</time>
-        </article>
-        <article class="schedule-slot">
-          <div class="schedule-slot-copy">
-            <strong>Подготовка к экзаменам</strong>
-            <span>Понедельник + Среда + Пятница</span>
-          </div>
-          <time datetime="00:30">00:30</time>
+          <time datetime="20:00">20:00</time>
         </article>
       </div>
       <p class="schedule-note">${icon("sparkles")} Не подходит время? Проведём занятия индивидуально — стоимость останется прежней.</p>
@@ -928,7 +916,7 @@ function render() {
   const hash = window.location.hash.replace(/^#\/?/, "");
   const [route, id] = hash.split("/");
 
-  if (route === "courses") app.innerHTML = coursesPage();
+  if (route === "courses") app.innerHTML = coursesPage(id ? decodeURIComponent(id) : "Все");
   else if (route === "course") app.innerHTML = coursePage(id);
   else if (route === "teachers") app.innerHTML = teachersPage();
   else if (route === "reviews") app.innerHTML = reviewsPage();

@@ -413,6 +413,10 @@ input {
   gap: 12px;
 }
 
+.schedule-slots.single-slot {
+  grid-template-columns: 1fr;
+}
+
 .schedule-slot {
   position: relative;
   display: flex;
@@ -1106,6 +1110,19 @@ input {
 
 .course-card-clickable:active {
   transform: scale(0.99);
+}
+
+.direction-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.direction-card:focus-visible {
+  outline: none;
+  border-color: rgba(var(--accent-rgb), 0.45);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.16);
 }
 
 .tag {
