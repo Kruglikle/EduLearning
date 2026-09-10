@@ -203,7 +203,7 @@ const coursePriceSummary = "6 400 ₽ или 9 600 ₽";
 const TEACHER_DIALOG_ENTER_DURATION_MS = 240;
 const TEACHER_DIALOG_EXIT_DURATION_MS = 160;
 const SPOTLIGHT_DIAMETER_PX = 260;
-const SPOTLIGHT_SURFACE_SELECTOR = ".card, .teacher-card, .hero-offer > span, .hero-console, .promo-strip, .schedule-strip, .schedule-day";
+const SPOTLIGHT_SURFACE_SELECTOR = ".card, .teacher-card, .hero-offer > span, .hero-console, .promo-strip";
 const courseScheduleSummary = "2 или 3 раза в неделю";
 const referralPromo =
   "Осенью действует акция: приведите друга и получите скидку 1 000 ₽ при оплате обучения. Количество приглашённых друзей не ограничено.";
@@ -710,7 +710,7 @@ function teachersPage() {
     <section class="teachers-grid" aria-label="Команда Edu Learning">
       ${teachers.map((teacher, index) => `
         <button class="teacher-card" type="button" data-teacher-index="${index}" aria-haspopup="dialog" aria-controls="teacher-dialog">
-          <span class="teacher-card-photo"><img src="${teacher.image}" alt="" loading="lazy" decoding="async" /></span>
+          <span class="teacher-card-photo"><img src="${teacher.image}" alt="" loading="eager" decoding="async" /></span>
           <span class="teacher-card-body">
             <span class="teacher-card-direction">${teacher.direction}</span>
             <strong>${teacher.name}</strong>
@@ -758,6 +758,10 @@ function selectTeacher(index, animate = true) {
   const dialog = document.querySelector("#teacher-dialog");
   if (!dialog) return;
   dialog.querySelector("#teacher-profile-panel").innerHTML = teacherProfile(teachers[index]);
+  const portrait = dialog.querySelector(".teacher-portrait-stage img");
+  const revealPortrait = () => requestAnimationFrame(() => portrait.classList.add("is-loaded"));
+  if (portrait.complete) revealPortrait();
+  else portrait.addEventListener("load", revealPortrait, { once: true });
   renderIcons();
   // Native modal semantics keep keyboard focus inside and restore it on close.
   dialog.showModal();
