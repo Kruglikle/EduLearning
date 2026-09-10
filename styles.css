@@ -420,13 +420,29 @@ input {
 }
 
 .schedule-day {
+  appearance: none;
   min-width: 0;
   min-height: 112px;
   padding: 14px 12px;
   border: 1px solid rgba(var(--accent-rgb), 0.2);
   border-radius: 8px;
   background: rgba(var(--accent-rgb), 0.07);
+  color: var(--text);
+  font: inherit;
   text-align: center;
+  cursor: pointer;
+  transition: transform 150ms var(--ease-out), border-color 150ms ease, background 150ms ease;
+}
+
+.schedule-day:hover,
+.schedule-day:focus-visible {
+  border-color: rgba(var(--accent-rgb), 0.5);
+  background: rgba(var(--accent-rgb), 0.1);
+}
+
+.schedule-day:focus-visible {
+  outline: 3px solid rgba(var(--accent-rgb), 0.2);
+  outline-offset: 3px;
 }
 
 .schedule-day > strong {
@@ -451,6 +467,46 @@ input {
 
 .schedule-day-times > span {
   color: var(--muted);
+}
+
+.schedule-explainer {
+  max-width: 920px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.schedule-dialog {
+  width: min(560px, calc(100% - 32px));
+}
+
+.schedule-dialog-content {
+  padding: 34px;
+}
+
+.schedule-dialog-content .eyebrow {
+  margin-bottom: 18px;
+}
+
+.schedule-dialog-content h2 {
+  margin: 0 52px 12px 0;
+  font-size: clamp(28px, 5vw, 38px);
+}
+
+.schedule-dialog-content p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.schedule-dialog-content .schedule-dialog-slot {
+  color: var(--green);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.schedule-dialog-content .actions {
+  margin-top: 24px;
 }
 
 .schedule-slot {
@@ -2229,12 +2285,12 @@ body:has(.teacher-dialog[open]) { overflow: hidden; }
     z-index: 0;
     top: 0;
     left: 0;
-    width: 340px;
-    height: 340px;
+    width: 260px;
+    height: 260px;
     border-radius: 50%;
     pointer-events: none;
     opacity: 0;
-    background: radial-gradient(circle, rgba(var(--accent-strong-rgb), 0.38) 0%, rgba(var(--accent-rgb), 0.18) 30%, rgba(var(--secondary-rgb), 0.08) 52%, transparent 74%);
+    background: radial-gradient(circle, rgba(var(--accent-strong-rgb), 0.24) 0%, rgba(var(--accent-rgb), 0.11) 28%, rgba(var(--secondary-rgb), 0.04) 50%, transparent 68%);
     will-change: transform, opacity;
     transition: opacity 100ms ease;
   }

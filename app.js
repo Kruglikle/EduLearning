@@ -202,8 +202,8 @@ const coursePlans = [
 const coursePriceSummary = "6 400 ₽ или 9 600 ₽";
 const TEACHER_DIALOG_ENTER_DURATION_MS = 240;
 const TEACHER_DIALOG_EXIT_DURATION_MS = 160;
-const SPOTLIGHT_DIAMETER_PX = 340;
-const SPOTLIGHT_SURFACE_SELECTOR = ".card, .teacher-card, .hero-offer > span, .hero-console, .promo-strip, .schedule-strip, .schedule-slot";
+const SPOTLIGHT_DIAMETER_PX = 260;
+const SPOTLIGHT_SURFACE_SELECTOR = ".card, .teacher-card, .hero-offer > span, .hero-console, .promo-strip, .schedule-strip, .schedule-day";
 const courseScheduleSummary = "2 или 3 раза в неделю";
 const referralPromo =
   "Осенью действует акция: приведите друга и получите скидку 1 000 ₽ при оплате обучения. Количество приглашённых друзей не ограничено.";
@@ -478,17 +478,29 @@ function englishGroupSchedule() {
       </div>
       <div class="schedule-week" aria-label="Доступное время занятий по английскому языку">
         ${week.map(({ day, label, times }) => `
-          <article class="schedule-day" aria-label="${label}">
+          <button class="schedule-day" type="button" data-schedule-day="${label}" data-schedule-times="${times.join(", ")}" aria-haspopup="dialog" aria-controls="schedule-dialog" aria-label="Записаться на занятия: ${label}">
             <strong>${day}</strong>
-            <div class="schedule-day-times">
+            <span class="schedule-day-times">
               ${times.length
                 ? times.map((time) => `<time datetime="${time}">${time}</time>`).join("")
                 : `<span aria-label="Занятий нет">—</span>`}
-            </div>
-          </article>
+            </span>
+          </button>
         `).join("")}
       </div>
+      <p class="schedule-explainer">В эти часы уже проходят индивидуальные занятия. Если вам подходит время, мы найдём ученика сопоставимого уровня и сформируем группу. Расписание можно гибко согласовать.</p>
       <p class="schedule-note">${icon("sparkles")} Не подходит время? Проведём занятия индивидуально — стоимость останется прежней.</p>
+      <dialog class="teacher-dialog schedule-dialog" id="schedule-dialog" aria-labelledby="schedule-dialog-title">
+        <button class="teacher-dialog-close" type="button" aria-label="Закрыть" data-schedule-dialog-close>${icon("x")}</button>
+        <div class="schedule-dialog-content">
+          <span class="eyebrow">${icon("calendar-days")} Гибкое расписание</span>
+          <h2 id="schedule-dialog-title">Записаться в группу</h2>
+          <p class="schedule-dialog-slot" data-schedule-dialog-slot></p>
+          <p data-schedule-dialog-copy></p>
+          <p>Сначала бесплатно определим ваш уровень и уточним удобное расписание.</p>
+          <div class="actions"><a class="btn btn-primary" href="#/contacts">${icon("send")} Оставить заявку</a></div>
+        </div>
+      </dialog>
     </section>
   `;
 }
@@ -969,6 +981,25 @@ document.addEventListener("click", (event) => {
   const teacherButton = event.target.closest("[data-teacher-index]");
   if (teacherButton) {
     selectTeacher(Number(teacherButton.dataset.teacherIndex), event.detail !== 0);
+  }
+
+  const scheduleDay = event.target.closest("[data-schedule-day]");
+  if (scheduleDay) {
+    const dialog = document.querySelector("#schedule-dialog");
+    const times = scheduleDay.dataset.scheduleTimes;
+    dialog.querySelector("[data-schedule-dialog-slot]").textContent = `${scheduleDay.dataset.scheduleDay}: ${times || "время согласуем"}`;
+    dialog.querySelector("[data-schedule-dialog-copy]").textContent = times
+      ? "Сейчас в это время проходят индивидуальные занятия. Если слот подходит вам и ученику сопоставимого уровня, мы объединим вас в группу."
+      : "На этот день пока нет закреплённого времени. Оставьте заявку, и мы предложим удобный индивидуальный слот или добавим вас в новую группу.";
+    dialog.showModal();
+    dialog.querySelector("[data-schedule-dialog-close]").onclick = () => dialog.close();
+    dialog.onclick = (dialogEvent) => {
+      if (dialogEvent.target !== dialog) return;
+      const bounds = dialog.getBoundingClientRect();
+      const outside = dialogEvent.clientX < bounds.left || dialogEvent.clientX > bounds.right ||
+        dialogEvent.clientY < bounds.top || dialogEvent.clientY > bounds.bottom;
+      if (outside) dialog.close();
+    };
   }
 
   if (event.target.closest(".main-nav a")) {
