@@ -460,9 +460,9 @@ function englishGroupSchedule() {
   const week = [
     { day: "Пн", label: "Понедельник", times: ["10:00", "00:30"] },
     { day: "Вт", label: "Вторник", times: ["22:00"] },
-    { day: "Ср", label: "Среда", times: ["00:30", "20:00"] },
+    { day: "Ср", label: "Среда", times: ["00:30"] },
     { day: "Чт", label: "Четверг", times: ["10:00"] },
-    { day: "Пт", label: "Пятница", times: ["22:00", "00:30", "20:00"] },
+    { day: "Пт", label: "Пятница", times: ["22:00", "00:30"] },
     { day: "Сб", label: "Суббота", times: [] },
     { day: "Вс", label: "Воскресенье", times: [] },
   ];
