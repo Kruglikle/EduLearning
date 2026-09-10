@@ -413,8 +413,44 @@ input {
   gap: 12px;
 }
 
-.schedule-slots.single-slot {
-  grid-template-columns: 1fr;
+.schedule-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.schedule-day {
+  min-width: 0;
+  min-height: 112px;
+  padding: 14px 12px;
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  border-radius: 8px;
+  background: rgba(var(--accent-rgb), 0.07);
+  text-align: center;
+}
+
+.schedule-day > strong {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.schedule-day-times {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+}
+
+.schedule-day time {
+  color: var(--green);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.schedule-day-times > span {
+  color: var(--muted);
 }
 
 .schedule-slot {
@@ -2211,6 +2247,8 @@ body:has(.teacher-dialog[open]) { overflow: hidden; }
 @media (max-width: 760px) {
   .schedule-strip { padding: 22px; }
   .schedule-intro { align-items: flex-start; flex-direction: column; gap: 16px; }
+  .schedule-week { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .schedule-day:last-child { grid-column: 1 / -1; }
   .schedule-slots { grid-template-columns: 1fr; }
   .schedule-slot { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
   .schedule-slot time { font-size: 21px; }

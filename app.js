@@ -457,22 +457,36 @@ function heroArt(kind) {
 }
 
 function englishGroupSchedule() {
+  const week = [
+    { day: "Пн", label: "Понедельник", times: ["10:00", "00:30"] },
+    { day: "Вт", label: "Вторник", times: ["22:00"] },
+    { day: "Ср", label: "Среда", times: ["00:30", "20:00"] },
+    { day: "Чт", label: "Четверг", times: ["10:00"] },
+    { day: "Пт", label: "Пятница", times: ["22:00", "00:30", "20:00"] },
+    { day: "Сб", label: "Суббота", times: [] },
+    { day: "Вс", label: "Воскресенье", times: [] },
+  ];
+
   return `
     <section class="schedule-strip" aria-labelledby="group-schedule-title">
       <div class="schedule-intro">
         <span class="eyebrow">${icon("clock-3")} Английский язык</span>
         <div>
-          <h2 id="group-schedule-title">Набор в группу</h2>
+          <h2 id="group-schedule-title">Набор в группы</h2>
           <p class="schedule-teacher">${icon("user-round")} Преподаватель — <strong>Кристина Ефремова</strong></p>
         </div>
       </div>
-      <div class="schedule-slots single-slot">
-        <article class="schedule-slot">
-          <div class="schedule-slot-copy">
-            <strong>Среда + Пятница</strong>
-          </div>
-          <time datetime="20:00">20:00</time>
-        </article>
+      <div class="schedule-week" aria-label="Доступное время занятий по английскому языку">
+        ${week.map(({ day, label, times }) => `
+          <article class="schedule-day" aria-label="${label}">
+            <strong>${day}</strong>
+            <div class="schedule-day-times">
+              ${times.length
+                ? times.map((time) => `<time datetime="${time}">${time}</time>`).join("")
+                : `<span aria-label="Занятий нет">—</span>`}
+            </div>
+          </article>
+        `).join("")}
       </div>
       <p class="schedule-note">${icon("sparkles")} Не подходит время? Проведём занятия индивидуально — стоимость останется прежней.</p>
     </section>
