@@ -111,16 +111,19 @@ input {
 
 .main-nav a {
   padding: 10px 12px;
+  border: 1px solid var(--line);
   border-radius: 8px;
   color: var(--muted);
+  background: color-mix(in srgb, var(--panel-strong) 80%, transparent);
   font-size: 14px;
   font-weight: 600;
-  transition: color 170ms var(--ease-out), background 170ms var(--ease-out);
+  transition: color 170ms var(--ease-out), border-color 170ms var(--ease-out), background 170ms var(--ease-out);
 }
 
 .main-nav a:hover,
 .main-nav a.active {
   color: var(--text);
+  border-color: rgba(var(--accent-rgb), 0.38);
   background: rgba(var(--accent-rgb), 0.1);
 }
 
@@ -1873,8 +1876,7 @@ textarea.input {
   content: none;
 }
 
-[data-theme="light"] .site-header,
-[data-theme="light"] .main-nav {
+[data-theme="light"] .site-header {
   background: rgba(248, 252, 250, 0.88);
   box-shadow: 0 12px 42px rgba(29, 75, 49, 0.1);
 }
