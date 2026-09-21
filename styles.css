@@ -1337,6 +1337,26 @@ input {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.module-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-bottom: 6px;
+}
+
+.module-heading h3 {
+  margin: 0;
+}
+
+.module-lessons {
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
 .module-index {
   display: grid;
   place-items: center;
@@ -1375,6 +1395,20 @@ input {
   display: grid;
   gap: 8px;
   margin-top: 16px;
+}
+
+.course-pricing-note {
+  margin-top: 16px !important;
+  padding: 14px;
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  border-radius: 8px;
+  color: var(--soft) !important;
+  background: rgba(var(--accent-rgb), 0.055);
+  font-weight: 700;
+}
+
+.course-pricing-note-large {
+  font-size: 18px;
 }
 
 .course-plan {
