@@ -192,7 +192,7 @@ const courses = [
     id: "design-intensive",
     title: "Дизайн-интенсив: портфолио за 4 дня",
     direction: "Design",
-    filter: "Design",
+    filter: "Интенсивы",
     level: "Beginner",
     duration: "4 дня",
     summary: "Четырёхдневный интенсив по визуальному дизайну: лендинг, экран онбординга, постер и упаковка работ в портфолио.",
@@ -244,7 +244,7 @@ const courses = [
 const app = document.querySelector("#app");
 const root = document.documentElement;
 const palettes = ["green", "orange", "blue"];
-const activeCourseIds = ["english-zero", "spoken-english", "exam-english", "3d-modeling", "python-zero", "nlp-basics"];
+const activeCourseIds = ["english-zero", "spoken-english", "exam-english", "3d-modeling", "python-zero", "nlp-basics", "design-intensive"];
 // Два доступных темпа обучения: стоимость пропорциональна числу занятий в пакете.
 const coursePlans = [
   { lessons: 8, lessonsPerWeek: 2, price: "6 400 ₽" },
@@ -664,7 +664,7 @@ function coursesPage(activeFilter = "Все") {
   return `
     ${pageTitle("Каталог курсов", "Выберите направление и курс.")}
     <div class="filters">
-      ${["Все", "English", "Blender", "Design", "AI / NLP"]
+      ${["Все", "English", "Blender", "Интенсивы", "AI / NLP"]
         .map((filter) => `<button class="filter-btn ${filter === activeFilter ? "active" : ""}" data-filter="${filter}">${filter}</button>`)
         .join("")}
     </div>
