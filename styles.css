@@ -1467,6 +1467,135 @@ input {
   font-size: 22px;
 }
 
+.course-price-change {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 2px 0 0 !important;
+  color: var(--muted) !important;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.course-price-change svg {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  color: var(--green);
+}
+
+.course-pricing-large .course-price-change {
+  grid-column: 1 / -1;
+  font-size: 14px;
+}
+
+.individual-english {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+  gap: 0;
+  border: 1px solid rgba(var(--accent-rgb), 0.28);
+  border-radius: 12px;
+  background: var(--panel);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+}
+
+.individual-english-copy {
+  padding: 36px;
+}
+
+.individual-english-copy .eyebrow {
+  margin-bottom: 18px;
+}
+
+.individual-english-copy h2 {
+  margin: 0;
+}
+
+.individual-english-copy > p {
+  max-width: 680px;
+  margin: 14px 0 0;
+  color: var(--soft);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.individual-english-benefits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.individual-english-benefits li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--soft);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.individual-english-benefits svg {
+  width: 18px;
+  height: 18px;
+  color: var(--green);
+}
+
+.individual-english-offer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  padding: 36px;
+  border-left: 1px solid rgba(var(--accent-rgb), 0.2);
+  background: rgba(var(--accent-rgb), 0.07);
+}
+
+.individual-english-label {
+  color: var(--soft);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.individual-english-offer > strong {
+  margin-top: 8px;
+  color: var(--green);
+  font-size: clamp(38px, 5vw, 54px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.individual-english-offer > p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.individual-english-offer .individual-english-loyalty {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--soft);
+  font-weight: 700;
+}
+
+.individual-english-loyalty svg {
+  flex: 0 0 auto;
+  width: 17px;
+  height: 17px;
+  margin-top: 1px;
+  color: var(--green);
+}
+
+.individual-english-offer .btn {
+  margin-top: 22px;
+}
+
 .course-actions {
   display: flex;
   align-items: center;
@@ -2224,6 +2353,15 @@ textarea.input {
     grid-template-columns: 1fr;
   }
 
+  .individual-english {
+    grid-template-columns: 1fr;
+  }
+
+  .individual-english-offer {
+    border-top: 1px solid rgba(var(--accent-rgb), 0.2);
+    border-left: 0;
+  }
+
   .btn {
     width: 100%;
   }
@@ -2352,6 +2490,15 @@ body:has(.teacher-dialog[open]) { overflow: hidden; }
   .schedule-slot time { font-size: 21px; }
 }
 @media (max-width: 600px) {
+  .individual-english-copy,
+  .individual-english-offer {
+    padding: 24px;
+  }
+
+  .individual-english-benefits {
+    display: grid;
+  }
+
   .teachers-grid { grid-template-columns: 1fr; gap: 20px; }
   .teacher-dialog .teacher-profile { display: flex; flex-direction: column-reverse; }
   .teacher-dialog .teacher-portrait-stage { min-height: 280px; height: 280px; border-left: 0; }

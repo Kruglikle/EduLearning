@@ -245,12 +245,14 @@ const app = document.querySelector("#app");
 const root = document.documentElement;
 const palettes = ["green", "orange", "blue"];
 const activeCourseIds = ["english-zero", "spoken-english", "exam-english", "3d-modeling", "python-zero", "nlp-basics", "design-intensive"];
-// Два доступных темпа обучения: стоимость пропорциональна числу занятий в пакете.
+// С 12 ноября 2026 года одно занятие в новом абонементе стоит 900 ₽.
 const coursePlans = [
-  { lessons: 8, lessonsPerWeek: 2, price: "6 400 ₽" },
-  { lessons: 12, lessonsPerWeek: 3, price: "9 600 ₽" },
+  { lessons: 8, lessonsPerWeek: 2, price: "7 200 ₽" },
+  { lessons: 12, lessonsPerWeek: 3, price: "10 800 ₽" },
 ];
-const coursePriceSummary = "6 400 ₽ или 9 600 ₽";
+const coursePriceSummary = "7 200 ₽ или 10 800 ₽";
+const priceChangeNote =
+  "Новые цены действуют с 12 ноября. Для действующих учеников сохраняется прежняя стоимость: 6 400 ₽ за 8 занятий и 9 600 ₽ за 12.";
 const TEACHER_DIALOG_ENTER_DURATION_MS = 240;
 const TEACHER_DIALOG_EXIT_DURATION_MS = 160;
 const SPOTLIGHT_DIAMETER_PX = 260;
@@ -417,7 +419,34 @@ function coursePricing(className = "") {
           `
         )
         .join("")}
+      <p class="course-price-change">${icon("info")} <span>${priceChangeNote}</span></p>
     </div>
+  `;
+}
+
+function individualEnglishSection() {
+  return `
+    <section class="section" aria-labelledby="individual-english-title">
+      <div class="individual-english">
+        <div class="individual-english-copy">
+          <span class="eyebrow">${icon("messages-square")} Персональный формат</span>
+          <h2 id="individual-english-title">Индивидуальные занятия по английскому</h2>
+          <p>Занимайтесь с преподавателем в своём темпе: программа строится вокруг вашего уровня, целей и удобного расписания.</p>
+          <ul class="individual-english-benefits">
+            <li>${icon("target")} Фокус на вашей цели</li>
+            <li>${icon("calendar-clock")} Гибкое расписание</li>
+            <li>${icon("message-circle")} Больше разговорной практики</li>
+          </ul>
+        </div>
+        <div class="individual-english-offer">
+          <span class="individual-english-label">Блок из 8 занятий</span>
+          <strong>7 200 ₽</strong>
+          <p>Новая стоимость — с <time datetime="2026-11-12">12 ноября</time>.</p>
+          <p class="individual-english-loyalty">${icon("shield-check")} Для действующих учеников цена остаётся прежней — 6 400 ₽.</p>
+          <a class="btn btn-primary" href="#/contacts/individual-english">${icon("send")} Записаться</a>
+        </div>
+      </div>
+    </section>
   `;
 }
 
@@ -571,8 +600,8 @@ function homePage() {
         <div class="hero-offer">
           <span>${icon("languages")} <strong>Бесплатно определим ваш уровень английского</strong></span>
           <span>${icon("calendar-days")} Индивидуальные и групповые занятия 2–3 раза в неделю</span>
-          <span>${icon("credit-card")} <strong>от 800 ₽ за занятие</strong></span>
-          <span>${icon("calendar")} Абонемент на месяц — <strong>от 6 400 ₽</strong></span>
+          <span>${icon("credit-card")} <strong>900 ₽ за занятие с 12 ноября</strong></span>
+          <span>${icon("calendar")} Блок из 8 занятий — <strong>7 200 ₽</strong></span>
         </div>
       </div>
       <div class="hero-console hero-gallery" aria-label="Карусель учебных направлений">
@@ -595,6 +624,8 @@ function homePage() {
       </div>
       <div class="grid grid-3">${directionCards()}</div>
     </section>
+
+    ${individualEnglishSection()}
 
     <section class="section">
       <div class="section-head">
@@ -961,28 +992,34 @@ function reviewsPage() {
   `;
 }
 
-function contactsPage() {
+function contactsPage(intent = "") {
+  const isIndividualEnglish = intent === "individual-english";
   return `
-    ${pageTitle("Записаться на обучение", "Оставьте контакты и расскажите о своей цели. Мы свяжемся с вами, уточним уровень и подберём программу.")}
+    ${pageTitle(
+      isIndividualEnglish ? "Записаться на индивидуальные занятия по английскому" : "Записаться на обучение",
+      isIndividualEnglish
+        ? "Оставьте контакты — бесплатно определим ваш уровень, уточним цель и подберём удобное время занятий."
+        : "Оставьте контакты и расскажите о своей цели. Мы свяжемся с вами, уточним уровень и подберём программу."
+    )}
     <section class="contact-layout">
       <article class="card">
         <span class="icon-chip">${icon("message-square-text")}</span>
-        <h2>Заявка на консультацию</h2>
+        <h2>${isIndividualEnglish ? "Заявка на индивидуальные занятия" : "Заявка на консультацию"}</h2>
         <form class="contact-form" data-contact-form>
-          <input type="hidden" name="_subject" value="Новая заявка с сайта Edu Learning" />
+          <input type="hidden" name="_subject" value="${isIndividualEnglish ? "Заявка на индивидуальные занятия по английскому" : "Новая заявка с сайта Edu Learning"}" />
           <input type="hidden" name="_template" value="table" />
           <input class="form-honey" type="text" name="_honey" tabindex="-1" autocomplete="off" />
           <label>Имя<input class="input" type="text" name="Имя" placeholder="Как к вам обращаться" autocomplete="name" required /></label>
           <label>Контакт<input class="input" type="text" name="Контакт" placeholder="Telegram, email или телефон" required /></label>
           <label>Направление
             <select class="input" name="Направление">
-              <option>English</option>
+              <option${isIndividualEnglish ? " selected" : ""}>English</option>
               <option>Blender и 3D-дизайн</option>
               <option>AI / NLP / Python</option>
               <option>Пока не определился</option>
             </select>
           </label>
-          <label>Цель<textarea class="input" name="Цель" rows="4" placeholder="Чему хотите научиться"></textarea></label>
+          <label>Цель<textarea class="input" name="Цель" rows="4" placeholder="Чему хотите научиться">${isIndividualEnglish ? "Хочу записаться на индивидуальные занятия по английскому языку." : ""}</textarea></label>
           <label class="consent-row"><input type="checkbox" required /> <span>Согласен на обработку данных для связи по заявке</span></label>
           <button class="btn btn-primary" type="submit">${icon("send")} Отправить заявку</button>
           <p class="form-status" data-form-status aria-live="polite"></p>
@@ -1012,7 +1049,7 @@ function render() {
   else if (route === "course") app.innerHTML = coursePage(id);
   else if (route === "teachers") app.innerHTML = teachersPage();
   else if (route === "reviews") app.innerHTML = reviewsPage();
-  else if (route === "contacts") app.innerHTML = contactsPage();
+  else if (route === "contacts") app.innerHTML = contactsPage(id ? decodeURIComponent(id) : "");
   else app.innerHTML = homePage();
 
   app.dataset.route = route || "home";
